@@ -28,6 +28,7 @@ local ferment = {
 	{"farming:barley", "wine:glass_beer"},
 	{"mobs:honey", "wine:glass_mead"},
 	{"default:apple", "wine:glass_cider"},
+	{"default:papyrus", "wine:glass_rum"},
 	{"wine:blue_agave", "wine:glass_tequila"},
 	{"farming:wheat", "wine:glass_wheat_beer"},
 	{"farming:rice", "wine:glass_sake"},
@@ -92,6 +93,61 @@ minetest.register_craft({
 	type = "shapeless",
 	output = "wine:glass_wine 9",
 	recipe = {"wine:bottle_wine"},
+})
+
+
+-- glass of rum
+minetest.register_node("wine:glass_rum", {
+	description = "Rum",
+	drawtype = "plantlike",
+	visual_scale = 0.8,
+	tiles = {"wine_rum_glass.png"},
+	inventory_image = "wine_rum_glass.png",
+	wield_image = "wine_rum_glass.png",
+	paramtype = "light",
+	is_ground_content = false,
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
+	},
+	groups = {food_rum = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	sounds = default.node_sound_glass_defaults(),
+	on_use = minetest.item_eat(2),
+})
+
+
+-- bottle of rum
+minetest.register_node("wine:bottle_rum", {
+	description = "Bottle of Rum",
+	drawtype = "plantlike",
+	tiles = {"wine_rum_bottle.png"},
+	inventory_image = "wine_rum_bottle.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
+	},
+	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
+	sounds = default.node_sound_defaults(),
+})
+
+ minetest.register_craft({
+	output = "wine:bottle_rum",
+	recipe = {
+		{"wine:glass_rum", "wine:glass_rum", "wine:glass_rum"},
+		{"wine:glass_rum", "wine:glass_rum", "wine:glass_rum"},
+		{"wine:glass_rum", "wine:glass_rum", "wine:glass_rum"},
+	},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "wine:glass_rum 9",
+	recipe = {"wine:bottle_rum"},
 })
 
 
@@ -589,12 +645,15 @@ if minetest.get_modpath("lucky_block") then
 		{"dro", {"wine:glass_wheat_beer"}, 5},
 		{"dro", {"wine:glass_mead"}, 5},
 		{"dro", {"wine:glass_cider"}, 5},
+		{"dro", {"wine:glass_rum"}, 5},
 		{"dro", {"wine:glass_tequila"}, 5},
 		{"dro", {"wine:wine_barrel"}, 1},
 		{"tel", 5, 1},
 		{"nod", "default:chest", 0, {
 			{name = "wine:bottle_wine", max = 1},
 			{name = "wine:bottle_tequila", max = 1},
+			{name = "wine:bottle_rum", max = 1},
+			{name = "wine:wine_barrel", max = 1},
 			{name = "wine:blue_agave", max = 4}}},
 	})
 end
