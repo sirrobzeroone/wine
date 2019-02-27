@@ -16,7 +16,7 @@ Change log:
 - 0.6 - Added API so drinks can easily be added, also added wheat beer thanks to h-v-smacker and support for pipeworks/tubelib
 - 0.7 - Blue Agave now appears in desert areas and spreads very slowly, can me fermented into tequila
 - 0.8 - Barrel and Agave both use node timers now thanks to h-v-smacker, added sake
-- 0.9 - Added Glass of Rum and Bottle of Rum thanks to acm :)
+- 0.9 - Added Glass of Rum and Bottle of Rum thanks to acm :) Added {alcohol=1} groups
 
 Lucky Blocks: 11
 

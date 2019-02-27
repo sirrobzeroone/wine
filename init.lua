@@ -58,7 +58,10 @@ minetest.register_node("wine:glass_wine", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
-	groups = {food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {
+		food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(2),
 })
@@ -112,7 +115,10 @@ minetest.register_node("wine:glass_rum", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
-	groups = {food_rum = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {
+		food_rum = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(2),
 })
@@ -168,7 +174,10 @@ minetest.register_node("wine:glass_wheat_beer", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
-	groups = {food_beer = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {
+		food_beer = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(2),
 })
@@ -190,7 +199,10 @@ minetest.register_node("wine:glass_beer", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
-	groups = {food_beer = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {
+		food_beer = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(2),
 })
@@ -212,7 +224,10 @@ minetest.register_node("wine:glass_mead", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
-	groups = {food_mead = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {
+		food_mead = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(4),
 })
@@ -234,7 +249,10 @@ minetest.register_node("wine:glass_cider", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
-	groups = {food_cider = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {
+		food_cider = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(2),
 })
@@ -256,7 +274,10 @@ minetest.register_node("wine:glass_tequila", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
-	groups = {food_tequila = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {
+		food_tequila = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(2),
 })
@@ -311,7 +332,10 @@ minetest.register_node("wine:glass_sake", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
-	groups = {food_sake = 1, vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {
+		food_sake = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(2),
 })
