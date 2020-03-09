@@ -32,6 +32,7 @@ local ferment = {
 	{"wine:blue_agave", "wine:glass_tequila"},
 	{"farming:wheat", "wine:glass_wheat_beer"},
 	{"farming:rice", "wine:glass_sake"},
+	{"farming:corn", "wine:glass_bourbon"},
 }
 
 function wine:add_item(list)
@@ -338,6 +339,63 @@ minetest.register_node("wine:glass_sake", {
 	},
 	sounds = default.node_sound_glass_defaults(),
 	on_use = minetest.item_eat(2),
+})
+
+
+-- glass of bourbon
+minetest.register_node("wine:glass_bourbon", {
+	description = S("Glass of Bourbon"),
+	drawtype = "plantlike",
+	visual_scale = 0.8,
+	tiles = {"wine_bourbon_glass.png"},
+	inventory_image = "wine_bourbon_glass.png",
+	wield_image = "wine_bourbon_glass.png",
+	paramtype = "light",
+	is_ground_content = false,
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.2, -0.5, -0.2, 0.2, 0.2, 0.2}
+	},
+	groups = {
+		food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
+		alcohol = 1
+	},
+	sounds = default.node_sound_glass_defaults(),
+	on_use = minetest.item_eat(2),
+})
+
+-- bottle of bourbon
+minetest.register_node("wine:bottle_bourbon", {
+	description = S("Bottle of Bourbon"),
+	drawtype = "plantlike",
+	tiles = {"wine_bourbon_bottle.png"},
+	inventory_image = "wine_bourbon_bottle.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
+	},
+	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
+	sounds = default.node_sound_defaults(),
+})
+
+minetest.register_craft({
+	output = "wine:bottle_bourbon",
+	recipe = {
+		{"wine:glass_bourbon", "wine:glass_bourbon", "wine:glass_bourbon"},
+		{"wine:glass_bourbon", "wine:glass_bourbon", "wine:glass_bourbon"},
+		{"wine:glass_bourbon", "wine:glass_bourbon", "wine:glass_bourbon"},
+	},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "wine:glass_bourbon 9",
+	recipe = {"wine:bottle_bourbon"},
 })
 
 
@@ -671,12 +729,14 @@ if minetest.get_modpath("lucky_block") then
 		{"dro", {"wine:glass_cider"}, 5},
 		{"dro", {"wine:glass_rum"}, 5},
 		{"dro", {"wine:glass_tequila"}, 5},
+		{"dro", {"wine:glass_bourbon"}, 5},
 		{"dro", {"wine:wine_barrel"}, 1},
 		{"tel", 5, 1},
 		{"nod", "default:chest", 0, {
 			{name = "wine:bottle_wine", max = 1},
 			{name = "wine:bottle_tequila", max = 1},
 			{name = "wine:bottle_rum", max = 1},
+			{name = "wine:bottle_bourbon", max = 1},
 			{name = "wine:wine_barrel", max = 1},
 			{name = "wine:blue_agave", max = 4}}},
 	})
