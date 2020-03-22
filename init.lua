@@ -1,5 +1,21 @@
 
-wine = {}
+wine = {
+	snd_d = default.node_sound_defaults(),
+	snd_g = default.node_sound_glass_defaults(),
+	snd_l = default.node_sound_leaves_defaults(),
+	sand = "default:desert_sand"
+}
+
+-- check for MineClone2
+local mcl = minetest.get_modpath("mcl_core")
+
+if mcl then
+	wine.snd_d = mcl_sounds.node_sound_glass_defaults()
+	wine.snd_g = mcl_sounds.node_sound_defaults()
+	wine.snd_l = mcl_sounds.node_sound_leaves_defaults()
+	wine.sand = "mcl_core:sand"
+end
+
 
 -- Intllib
 local S
@@ -36,6 +52,11 @@ local ferment = {
 	{"farming:baked_potato", "wine:glass_vodka"}
 }
 
+if mlc then
+	ferment[4] = {"mcl_core:apple", "wine:glass_cider"}
+	ferment[5] = {"mcl_core:paper", "wine:glass_rum"}
+end
+
 function wine:add_item(list)
 
 	for n = 1, #list do
@@ -64,7 +85,7 @@ minetest.register_node("wine:glass_wine", {
 		food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -82,7 +103,7 @@ minetest.register_node("wine:bottle_wine", {
 		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
 	},
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
-	sounds = default.node_sound_defaults(),
+	sounds = wine.snd_d,
 })
 
 minetest.register_craft({
@@ -121,7 +142,7 @@ minetest.register_node("wine:glass_rum", {
 		food_rum = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -140,7 +161,7 @@ minetest.register_node("wine:bottle_rum", {
 		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
 	},
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
-	sounds = default.node_sound_defaults(),
+	sounds = wine.snd_d,
 })
 
  minetest.register_craft({
@@ -180,7 +201,7 @@ minetest.register_node("wine:glass_wheat_beer", {
 		food_beer = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -205,7 +226,7 @@ minetest.register_node("wine:glass_beer", {
 		food_beer = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -230,7 +251,7 @@ minetest.register_node("wine:glass_mead", {
 		food_mead = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(4),
 })
 
@@ -255,7 +276,7 @@ minetest.register_node("wine:glass_cider", {
 		food_cider = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -280,7 +301,7 @@ minetest.register_node("wine:glass_tequila", {
 		food_tequila = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -299,7 +320,7 @@ minetest.register_node("wine:bottle_tequila", {
 		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
 	},
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
-	sounds = default.node_sound_defaults(),
+	sounds = wine.snd_d,
 })
 
 minetest.register_craft({
@@ -338,7 +359,7 @@ minetest.register_node("wine:glass_sake", {
 		food_sake = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -363,7 +384,7 @@ minetest.register_node("wine:glass_bourbon", {
 		food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -381,7 +402,7 @@ minetest.register_node("wine:bottle_bourbon", {
 		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
 	},
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
-	sounds = default.node_sound_defaults(),
+	sounds = wine.snd_d,
 })
 
 minetest.register_craft({
@@ -420,7 +441,7 @@ minetest.register_node("wine:glass_vodka", {
 		food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
 })
 
@@ -438,7 +459,7 @@ minetest.register_node("wine:bottle_vodka", {
 		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
 	},
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
-	sounds = default.node_sound_defaults(),
+	sounds = wine.snd_d,
 })
 
 minetest.register_craft({
@@ -474,7 +495,7 @@ minetest.register_node("wine:blue_agave", {
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
 	},
 	groups = {snappy = 3, attached_node = 1, plant = 1},
-	sounds = default.node_sound_leaves_defaults(),
+	sounds = wine.snd_l,
 
 	on_construct = function(pos)
 
@@ -505,7 +526,7 @@ minetest.register_node("wine:blue_agave", {
 		n = minetest.find_nodes_in_area_under_air(
 			{x = pos.x + 1, y = pos.y - 1, z = pos.z + 1},
 			{x = pos.x - 1, y = pos.y - 2, z = pos.z - 1},
-			{"default:desert_sand"})
+			{wine.sand})
 
 		-- place blue agave
 		if n and #n > 0 then
@@ -529,27 +550,27 @@ minetest.register_craft( {
 
 minetest.register_decoration({
 	deco_type = "simple",
-	place_on = {"default:desert_sand"},
+	place_on = {wine.sand},
 	sidelen = 16,
 	fill_ratio = 0.001,
 	biomes = {"desert"},
 	decoration = {"wine:blue_agave"},
 	y_min = 15,
 	y_max = 50,
-	spawn_by = "default:desert_sand",
+	spawn_by = wine.sand,
 	num_spawn_by = 6,
 })
 
 if minetest.get_modpath("bonemeal") then
 	bonemeal:add_deco({
-		{"default:desert_sand", {}, {"default:dry_shrub", "wine:blue_agave", "", ""} }
+		{wine.sand, {}, {"default:dry_shrub", "wine:blue_agave", "", ""} }
 	})
 end
 
 
 -- Wine barrel
 winebarrel_formspec = "size[8,9]"
-	.. default.gui_bg..default.gui_bg_img..default.gui_slots
+--	.. default.gui_bg..default.gui_bg_img..default.gui_slots
 	.. "list[current_name;src;2,1;1,1;]"
 	.. "list[current_name;dst;5,1;1,1;]"
 	.. "list[current_player;main;0,5;8,4;]"
@@ -740,14 +761,26 @@ minetest.register_node("wine:wine_barrel", {
 	end,
 })
 
-minetest.register_craft({
-	output = "wine:wine_barrel",
-	recipe = {
-		{"group:wood", "group:wood", "group:wood"},
-		{"default:steel_ingot", "", "default:steel_ingot"},
-		{"group:wood", "group:wood", "group:wood"},
-	},
-})
+if mcl then
+
+	minetest.register_craft({
+		output = "wine:wine_barrel",
+		recipe = {
+			{"group:wood", "group:wood", "group:wood"},
+			{"mcl_core:iron_ingot", "", "mcl_core:iron_ingot"},
+			{"group:wood", "group:wood", "group:wood"},
+		},
+	})
+else
+	minetest.register_craft({
+		output = "wine:wine_barrel",
+		recipe = {
+			{"group:wood", "group:wood", "group:wood"},
+			{"default:steel_ingot", "", "default:steel_ingot"},
+			{"group:wood", "group:wood", "group:wood"},
+		},
+	})
+end
 
 
 -- LBMs to start timers on existing, ABM-driven nodes

@@ -18,7 +18,7 @@ Change log:
 - 0.8 - Barrel and Agave both use node timers now thanks to h-v-smacker, added sake
 - 0.9 - Added Glass of Rum and Bottle of Rum thanks to acm :) Added {alcohol=1} groups
 - 1.0 - Added glass and bottle or Bourbon made by fermenting corn
-- 1.1 - Added glass and bottle of Vodka made by fermenting baked potato
+- 1.1 - Added glass and bottle of Vodka made by fermenting baked potato, Added MineClone2 support and spanish translation
 
 Lucky Blocks: 13
 
