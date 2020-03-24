@@ -1,8 +1,8 @@
 
 wine = {
-	snd_d = default.node_sound_defaults(),
-	snd_g = default.node_sound_glass_defaults(),
-	snd_l = default.node_sound_leaves_defaults(),
+	snd_d = default and default.node_sound_defaults(),
+	snd_g = default and default.node_sound_glass_defaults(),
+	snd_l = default and default.node_sound_leaves_defaults(),
 	sand = "default:desert_sand"
 }
 
