@@ -1,8 +1,10 @@
 
+local def = minetest.get_modpath("default")
+
 wine = {
-	snd_d = default and default.node_sound_defaults(),
-	snd_g = default and default.node_sound_glass_defaults(),
-	snd_l = default and default.node_sound_leaves_defaults(),
+	snd_d = def and default.node_sound_defaults(),
+	snd_g = def and default.node_sound_glass_defaults(),
+	snd_l = def and default.node_sound_leaves_defaults(),
 	sand = "default:desert_sand"
 }
 
@@ -52,7 +54,7 @@ local ferment = {
 	{"farming:baked_potato", "wine:glass_vodka"}
 }
 
-if mlc then
+if mcl then
 	ferment[4] = {"mcl_core:apple", "wine:glass_cider"}
 	ferment[5] = {"mcl_core:paper", "wine:glass_rum"}
 end
@@ -570,7 +572,6 @@ end
 
 -- Wine barrel
 winebarrel_formspec = "size[8,9]"
---	.. default.gui_bg..default.gui_bg_img..default.gui_slots
 	.. "list[current_name;src;2,1;1,1;]"
 	.. "list[current_name;dst;5,1;1,1;]"
 	.. "list[current_player;main;0,5;8,4;]"
