@@ -18,6 +18,8 @@ if mcl then
 	wine.sand = "mcl_core:sand"
 end
 
+-- check for Unified Inventory
+local is_uninv = minetest.global_exists("unified_inventory") or false
 
 -- Intllib
 local S
@@ -41,6 +43,17 @@ else
 end
 
 
+-- Unified Inventory hints
+if is_uninv then
+	unified_inventory.register_craft_type("barrel", {
+		description = "Barrel",
+		icon = 'wine_barrel.png',
+		width = 1,
+		height = 1,
+	})
+end
+
+
 local ferment = {
 	{"farming:grapes", "wine:glass_wine"},
 	{"farming:barley", "wine:glass_beer"},
@@ -59,10 +72,29 @@ if mcl then
 	ferment[5] = {"mcl_core:paper", "wine:glass_rum"}
 end
 
+
+if is_uninv then
+	for _, f in pairs(ferment) do
+		unified_inventory.register_craft({
+			type = "barrel",
+			items = { f[1] },
+			output = f[2],
+		})
+	end
+end
+
+
 function wine:add_item(list)
 
 	for n = 1, #list do
 		table.insert(ferment, list[n])
+		if is_uninv then
+			unified_inventory.register_craft({
+				type = "barrel",
+				items = { list[n][1] },
+				output = list[n][2],
+			})
+		end
 	end
 end
 

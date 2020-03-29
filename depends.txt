@@ -7,3 +7,4 @@ mcl_core?
 mcl_sounds?
 mcl_loot?
 doc?
+unified_inventory?
