@@ -158,7 +158,7 @@ minetest.register_craft({
 
 -- glass of rum
 minetest.register_node("wine:glass_rum", {
-	description = "Rum",
+	description = S("Rum"),
 	drawtype = "plantlike",
 	visual_scale = 0.8,
 	tiles = {"wine_rum_glass.png"},
@@ -183,7 +183,7 @@ minetest.register_node("wine:glass_rum", {
 
 -- bottle of rum
 minetest.register_node("wine:bottle_rum", {
-	description = "Bottle of Rum",
+	description = S("Bottle of Rum"),
 	drawtype = "plantlike",
 	tiles = {"wine_rum_bottle.png"},
 	inventory_image = "wine_rum_bottle.png",
@@ -317,7 +317,7 @@ minetest.register_node("wine:glass_cider", {
 
 -- glass of tequila
 minetest.register_node("wine:glass_tequila", {
-	description = "Tequila",
+	description = S("Tequila"),
 	drawtype = "plantlike",
 	visual_scale = 0.8,
 	tiles = {"wine_tequila.png"},
@@ -342,7 +342,7 @@ minetest.register_node("wine:glass_tequila", {
 
 -- bottle of tequila
 minetest.register_node("wine:bottle_tequila", {
-	description = "Bottle of Tequila",
+	description = S("Bottle of Tequila"),
 	drawtype = "plantlike",
 	tiles = {"wine_tequila_bottle.png"},
 	inventory_image = "wine_tequila_bottle.png",
@@ -375,7 +375,7 @@ minetest.register_craft({
 
 -- glass of sake
 minetest.register_node("wine:glass_sake", {
-	description = "Sake",
+	description = S("Sake"),
 	drawtype = "plantlike",
 	visual_scale = 0.8,
 	tiles = {"wine_sake.png"},
@@ -514,7 +514,7 @@ minetest.register_craft({
 
 -- blue agave
 minetest.register_node("wine:blue_agave", {
-	description = "Blue Agave",
+	description = S("Blue Agave"),
 	drawtype = "plantlike",
 	visual_scale = 0.8,
 	tiles = {"wine_blue_agave.png"},

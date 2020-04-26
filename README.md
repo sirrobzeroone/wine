@@ -20,6 +20,7 @@ Change log:
 - 1.0 - Added glass and bottle or Bourbon made by fermenting corn
 - 1.1 - Added glass and bottle of Vodka made by fermenting baked potato, Added MineClone2 support and spanish translation
 - 1.2 - Added Unified Inventory support for barrel recipes (thanks to realmicu)
+- 1.3 - Translations updated and French added thanks to TheDarkTiger
 
 Lucky Blocks: 13
 
