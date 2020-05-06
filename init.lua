@@ -239,6 +239,38 @@ minetest.register_node("wine:glass_wheat_beer", {
 	on_use = minetest.item_eat(2),
 })
 
+-- bottle of wheat beer
+minetest.register_node("wine:bottle_wheat_beer", {
+	description = S("Bottle of Wheat Beer"),
+	drawtype = "plantlike",
+	tiles = {"wine_wheat_beer_bottle.png"},
+	inventory_image = "wine_wheat_beer_bottle.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
+	},
+	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
+	sounds = wine.snd_d,
+})
+
+ minetest.register_craft({
+	output = "wine:bottle_wheat_beer",
+	recipe = {
+		{"wine:glass_wheat_beer", "wine:glass_wheat_beer", "wine:glass_wheat_beer"},
+		{"wine:glass_wheat_beer", "wine:glass_wheat_beer", "wine:glass_wheat_beer"},
+		{"wine:glass_wheat_beer", "wine:glass_wheat_beer", "wine:glass_wheat_beer"},
+	},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "wine:glass_wheat_beer 9",
+	recipe = {"wine:bottle_wheat_beer"},
+})
+
 
 -- glass of beer (thanks to RiverKpocc @ deviantart.com for image)
 minetest.register_node("wine:glass_beer", {
@@ -262,6 +294,38 @@ minetest.register_node("wine:glass_beer", {
 	},
 	sounds = wine.snd_g,
 	on_use = minetest.item_eat(2),
+})
+
+-- bottle of beer
+minetest.register_node("wine:bottle_beer", {
+	description = S("Bottle of Beer"),
+	drawtype = "plantlike",
+	tiles = {"wine_beer_bottle.png"},
+	inventory_image = "wine_beer_bottle.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
+	},
+	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
+	sounds = wine.snd_d,
+})
+
+ minetest.register_craft({
+	output = "wine:bottle_beer",
+	recipe = {
+		{"wine:glass_beer", "wine:glass_beer", "wine:glass_beer"},
+		{"wine:glass_beer", "wine:glass_beer", "wine:glass_beer"},
+		{"wine:glass_beer", "wine:glass_beer", "wine:glass_beer"},
+	},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "wine:glass_beer 9",
+	recipe = {"wine:bottle_beer"},
 })
 
 

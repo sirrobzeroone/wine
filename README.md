@@ -21,6 +21,7 @@ Change log:
 - 1.1 - Added glass and bottle of Vodka made by fermenting baked potato, Added MineClone2 support and spanish translation
 - 1.2 - Added Unified Inventory support for barrel recipes (thanks to realmicu)
 - 1.3 - Translations updated and French added thanks to TheDarkTiger
+- 1.4 - Added bottle of beer and bottle of wheat beer (thanks Darkstalker for textures)
 
 Lucky Blocks: 13
 
