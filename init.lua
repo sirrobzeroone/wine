@@ -45,6 +45,7 @@ end
 
 -- Unified Inventory hints
 if is_uninv then
+
 	unified_inventory.register_craft_type("barrel", {
 		description = "Barrel",
 		icon = 'wine_barrel.png',
@@ -74,10 +75,12 @@ end
 
 
 if is_uninv then
+
 	for _, f in pairs(ferment) do
+
 		unified_inventory.register_craft({
 			type = "barrel",
-			items = { f[1] },
+			items = {f[1]},
 			output = f[2],
 		})
 	end
@@ -87,11 +90,14 @@ end
 function wine:add_item(list)
 
 	for n = 1, #list do
+
 		table.insert(ferment, list[n])
+
 		if is_uninv then
+
 			unified_inventory.register_craft({
 				type = "barrel",
-				items = { list[n][1] },
+				items = {list[n][1]},
 				output = list[n][2],
 			})
 		end
@@ -99,11 +105,16 @@ function wine:add_item(list)
 end
 
 
+-- selection boxes
+local gla_sel = {type = "fixed", fixed = {-0.2, -0.5, -0.2, 0.2, 0, 0.2}}
+local bot_sel = {type = "fixed", fixed = {-0.15, -0.5, -0.15, 0.15, 0.25, 0.15}}
+
+
 -- glass of wine
 minetest.register_node("wine:glass_wine", {
 	description = S("Glass of Wine"),
 	drawtype = "plantlike",
-	visual_scale = 0.8,
+	visual_scale = 0.5,
 	tiles = {"wine_glass.png"},
 	inventory_image = "wine_glass.png",
 	wield_image = "wine_glass.png",
@@ -111,10 +122,7 @@ minetest.register_node("wine:glass_wine", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -127,32 +135,15 @@ minetest.register_node("wine:glass_wine", {
 minetest.register_node("wine:bottle_wine", {
 	description = S("Bottle of Wine"),
 	drawtype = "plantlike",
+	visual_scale = 0.7,
 	tiles = {"wine_bottle.png"},
 	inventory_image = "wine_bottle.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
-	},
+	selection_box = bot_sel,
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
 	sounds = wine.snd_d,
-})
-
-minetest.register_craft({
-	output = "wine:bottle_wine",
-	recipe = {
-		{"wine:glass_wine", "wine:glass_wine", "wine:glass_wine"},
-		{"wine:glass_wine", "wine:glass_wine", "wine:glass_wine"},
-		{"wine:glass_wine", "wine:glass_wine", "wine:glass_wine"},
-	},
-})
-
-minetest.register_craft({
-	type = "shapeless",
-	output = "wine:glass_wine 9",
-	recipe = {"wine:bottle_wine"},
 })
 
 
@@ -160,7 +151,7 @@ minetest.register_craft({
 minetest.register_node("wine:glass_rum", {
 	description = S("Rum"),
 	drawtype = "plantlike",
-	visual_scale = 0.8,
+	visual_scale = 0.5,
 	tiles = {"wine_rum_glass.png"},
 	inventory_image = "wine_rum_glass.png",
 	wield_image = "wine_rum_glass.png",
@@ -168,10 +159,7 @@ minetest.register_node("wine:glass_rum", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_rum = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -185,32 +173,15 @@ minetest.register_node("wine:glass_rum", {
 minetest.register_node("wine:bottle_rum", {
 	description = S("Bottle of Rum"),
 	drawtype = "plantlike",
+	visual_scale = 0.7,
 	tiles = {"wine_rum_bottle.png"},
 	inventory_image = "wine_rum_bottle.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
-	},
+	selection_box = bot_sel,
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
 	sounds = wine.snd_d,
-})
-
- minetest.register_craft({
-	output = "wine:bottle_rum",
-	recipe = {
-		{"wine:glass_rum", "wine:glass_rum", "wine:glass_rum"},
-		{"wine:glass_rum", "wine:glass_rum", "wine:glass_rum"},
-		{"wine:glass_rum", "wine:glass_rum", "wine:glass_rum"},
-	},
-})
-
-minetest.register_craft({
-	type = "shapeless",
-	output = "wine:glass_rum 9",
-	recipe = {"wine:bottle_rum"},
 })
 
 
@@ -218,8 +189,8 @@ minetest.register_craft({
 -- The image is a lighter version of the one from RiverKpocc @ deviantart.com
 minetest.register_node("wine:glass_wheat_beer", {
 	description = S("Wheat Beer"),
-	drawtype = "torchlike", --"plantlike",
-	visual_scale = 0.8,
+	drawtype = "plantlike",
+	visual_scale = 0.5,
 	tiles = {"wine_wheat_beer_glass.png"},
 	inventory_image = "wine_wheat_beer_glass.png",
 	wield_image = "wine_wheat_beer_glass.png",
@@ -227,10 +198,7 @@ minetest.register_node("wine:glass_wheat_beer", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_beer = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -243,40 +211,23 @@ minetest.register_node("wine:glass_wheat_beer", {
 minetest.register_node("wine:bottle_wheat_beer", {
 	description = S("Bottle of Wheat Beer"),
 	drawtype = "plantlike",
+	visual_scale = 0.7,
 	tiles = {"wine_wheat_beer_bottle.png"},
 	inventory_image = "wine_wheat_beer_bottle.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
-	},
+	selection_box = bot_sel,
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
 	sounds = wine.snd_d,
-})
-
- minetest.register_craft({
-	output = "wine:bottle_wheat_beer",
-	recipe = {
-		{"wine:glass_wheat_beer", "wine:glass_wheat_beer", "wine:glass_wheat_beer"},
-		{"wine:glass_wheat_beer", "wine:glass_wheat_beer", "wine:glass_wheat_beer"},
-		{"wine:glass_wheat_beer", "wine:glass_wheat_beer", "wine:glass_wheat_beer"},
-	},
-})
-
-minetest.register_craft({
-	type = "shapeless",
-	output = "wine:glass_wheat_beer 9",
-	recipe = {"wine:bottle_wheat_beer"},
 })
 
 
 -- glass of beer (thanks to RiverKpocc @ deviantart.com for image)
 minetest.register_node("wine:glass_beer", {
 	description = S("Beer"),
-	drawtype = "torchlike", --"plantlike",
-	visual_scale = 0.8,
+	drawtype = "plantlike",
+	visual_scale = 0.5,
 	tiles = {"wine_beer_glass.png"},
 	inventory_image = "wine_beer_glass.png",
 	wield_image = "wine_beer_glass.png",
@@ -284,10 +235,7 @@ minetest.register_node("wine:glass_beer", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_beer = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -300,32 +248,15 @@ minetest.register_node("wine:glass_beer", {
 minetest.register_node("wine:bottle_beer", {
 	description = S("Bottle of Beer"),
 	drawtype = "plantlike",
+	visual_scale = 0.7,
 	tiles = {"wine_beer_bottle.png"},
 	inventory_image = "wine_beer_bottle.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
-	},
+	selection_box = bot_sel,
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
 	sounds = wine.snd_d,
-})
-
- minetest.register_craft({
-	output = "wine:bottle_beer",
-	recipe = {
-		{"wine:glass_beer", "wine:glass_beer", "wine:glass_beer"},
-		{"wine:glass_beer", "wine:glass_beer", "wine:glass_beer"},
-		{"wine:glass_beer", "wine:glass_beer", "wine:glass_beer"},
-	},
-})
-
-minetest.register_craft({
-	type = "shapeless",
-	output = "wine:glass_beer 9",
-	recipe = {"wine:bottle_beer"},
 })
 
 
@@ -333,7 +264,7 @@ minetest.register_craft({
 minetest.register_node("wine:glass_mead", {
 	description = S("Honey-Mead"),
 	drawtype = "plantlike",
-	visual_scale = 0.8,
+	visual_scale = 0.5,
 	tiles = {"wine_mead_glass.png"},
 	inventory_image = "wine_mead_glass.png",
 	wield_image = "wine_mead_glass.png",
@@ -341,10 +272,7 @@ minetest.register_node("wine:glass_mead", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_mead = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -358,7 +286,7 @@ minetest.register_node("wine:glass_mead", {
 minetest.register_node("wine:glass_cider", {
 	description = S("Apple Cider"),
 	drawtype = "plantlike",
-	visual_scale = 0.8,
+	visual_scale = 0.5,
 	tiles = {"wine_cider_glass.png"},
 	inventory_image = "wine_cider_glass.png",
 	wield_image = "wine_cider_glass.png",
@@ -366,10 +294,7 @@ minetest.register_node("wine:glass_cider", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_cider = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -383,7 +308,7 @@ minetest.register_node("wine:glass_cider", {
 minetest.register_node("wine:glass_tequila", {
 	description = S("Tequila"),
 	drawtype = "plantlike",
-	visual_scale = 0.8,
+	visual_scale = 0.5,
 	tiles = {"wine_tequila.png"},
 	inventory_image = "wine_tequila.png",
 	wield_image = "wine_tequila.png",
@@ -391,10 +316,7 @@ minetest.register_node("wine:glass_tequila", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_tequila = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -408,32 +330,15 @@ minetest.register_node("wine:glass_tequila", {
 minetest.register_node("wine:bottle_tequila", {
 	description = S("Bottle of Tequila"),
 	drawtype = "plantlike",
+	visual_scale = 0.7,
 	tiles = {"wine_tequila_bottle.png"},
 	inventory_image = "wine_tequila_bottle.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
-	},
+	selection_box = bot_sel,
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
 	sounds = wine.snd_d,
-})
-
-minetest.register_craft({
-	output = "wine:bottle_tequila",
-	recipe = {
-		{"wine:glass_tequila", "wine:glass_tequila", "wine:glass_tequila"},
-		{"wine:glass_tequila", "wine:glass_tequila", "wine:glass_tequila"},
-		{"wine:glass_tequila", "wine:glass_tequila", "wine:glass_tequila"},
-	},
-})
-
-minetest.register_craft({
-	type = "shapeless",
-	output = "wine:glass_tequila 9",
-	recipe = {"wine:bottle_tequila"},
 })
 
 
@@ -441,7 +346,7 @@ minetest.register_craft({
 minetest.register_node("wine:glass_sake", {
 	description = S("Sake"),
 	drawtype = "plantlike",
-	visual_scale = 0.8,
+	visual_scale = 0.5,
 	tiles = {"wine_sake.png"},
 	inventory_image = "wine_sake.png",
 	wield_image = "wine_sake.png",
@@ -449,10 +354,7 @@ minetest.register_node("wine:glass_sake", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.3, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_sake = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -461,12 +363,27 @@ minetest.register_node("wine:glass_sake", {
 	on_use = minetest.item_eat(2),
 })
 
+-- bottle of sake
+minetest.register_node("wine:bottle_sake", {
+	description = S("Bottle of Sake"),
+	drawtype = "plantlike",
+	visual_scale = 0.7,
+	tiles = {"wine_sake_bottle.png"},
+	inventory_image = "wine_sake_bottle.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = bot_sel,
+	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
+	sounds = wine.snd_d,
+})
+
 
 -- glass of bourbon
 minetest.register_node("wine:glass_bourbon", {
 	description = S("Glass of Bourbon"),
 	drawtype = "plantlike",
-	visual_scale = 0.8,
+	visual_scale = 0.5,
 	tiles = {"wine_bourbon_glass.png"},
 	inventory_image = "wine_bourbon_glass.png",
 	wield_image = "wine_bourbon_glass.png",
@@ -474,10 +391,7 @@ minetest.register_node("wine:glass_bourbon", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.2, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -490,32 +404,15 @@ minetest.register_node("wine:glass_bourbon", {
 minetest.register_node("wine:bottle_bourbon", {
 	description = S("Bottle of Bourbon"),
 	drawtype = "plantlike",
+	visual_scale = 0.7,
 	tiles = {"wine_bourbon_bottle.png"},
 	inventory_image = "wine_bourbon_bottle.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
-	},
+	selection_box = bot_sel,
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
 	sounds = wine.snd_d,
-})
-
-minetest.register_craft({
-	output = "wine:bottle_bourbon",
-	recipe = {
-		{"wine:glass_bourbon", "wine:glass_bourbon", "wine:glass_bourbon"},
-		{"wine:glass_bourbon", "wine:glass_bourbon", "wine:glass_bourbon"},
-		{"wine:glass_bourbon", "wine:glass_bourbon", "wine:glass_bourbon"},
-	},
-})
-
-minetest.register_craft({
-	type = "shapeless",
-	output = "wine:glass_bourbon 9",
-	recipe = {"wine:bottle_bourbon"},
 })
 
 
@@ -523,7 +420,7 @@ minetest.register_craft({
 minetest.register_node("wine:glass_vodka", {
 	description = S("Glass of Vodka"),
 	drawtype = "plantlike",
-	visual_scale = 0.8,
+	visual_scale = 0.5,
 	tiles = {"wine_vodka_glass.png"},
 	inventory_image = "wine_vodka_glass.png",
 	wield_image = "wine_vodka_glass.png",
@@ -531,10 +428,7 @@ minetest.register_node("wine:glass_vodka", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.2, 0.2}
-	},
+	selection_box = gla_sel,
 	groups = {
 		food_wine = 1, vessel = 1, dig_immediate = 3, attached_node = 1,
 		alcohol = 1
@@ -547,34 +441,42 @@ minetest.register_node("wine:glass_vodka", {
 minetest.register_node("wine:bottle_vodka", {
 	description = S("Bottle of Vodka"),
 	drawtype = "plantlike",
+	visual_scale = 0.7,
 	tiles = {"wine_vodka_bottle.png"},
 	inventory_image = "wine_vodka_bottle.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = { -0.15, -0.5, -0.15, 0.15, 0.25, 0.15 }
-	},
+	selection_box = bot_sel,
 	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
 	sounds = wine.snd_d,
 })
 
-minetest.register_craft({
-	output = "wine:bottle_vodka",
-	recipe = {
-		{"wine:glass_vodka", "wine:glass_vodka", "wine:glass_vodka"},
-		{"wine:glass_vodka", "wine:glass_vodka", "wine:glass_vodka"},
-		{"wine:glass_vodka", "wine:glass_vodka", "wine:glass_vodka"},
-	},
-})
 
-minetest.register_craft({
-	type = "shapeless",
-	output = "wine:glass_vodka 9",
-	recipe = {"wine:bottle_vodka"},
-})
+-- bottle recipes
+local bottles = {
+	"wine", "beer", "rum", "tequila", "wheat_beer", "sake", "bourbon", "vodka"}
 
+for n = 1, #bottles do
+
+	local glass = "wine:glass_" .. bottles[n]
+	local bottle = "wine:bottle_" .. bottles[n]
+
+	minetest.register_craft({
+		output = bottle,
+		recipe = {
+			{glass, glass, glass},
+			{glass, glass, glass},
+			{glass, glass, glass},
+		},
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = glass .. " 9",
+		recipe = {bottle},
+	})
+end
 
 -- blue agave
 minetest.register_node("wine:blue_agave", {
@@ -660,6 +562,7 @@ minetest.register_decoration({
 })
 
 if minetest.get_modpath("bonemeal") then
+
 	bonemeal:add_deco({
 		{wine.sand, {}, {"default:dry_shrub", "wine:blue_agave", "", ""} }
 	})
@@ -719,7 +622,8 @@ minetest.register_node("wine:wine_barrel", {
 		return true
 	end,
 
-	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+	allow_metadata_inventory_take = function(
+			pos, listname, index, stack, player)
 
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
@@ -728,7 +632,8 @@ minetest.register_node("wine:wine_barrel", {
 		return stack:get_count()
 	end,
 
-	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+	allow_metadata_inventory_put = function(
+			pos, listname, index, stack, player)
 
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
@@ -744,7 +649,8 @@ minetest.register_node("wine:wine_barrel", {
 		end
 	end,
 
-	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+	allow_metadata_inventory_move = function(
+			pos, from_list, from_index, to_list, to_index, count, player)
 
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
@@ -794,7 +700,8 @@ minetest.register_node("wine:wine_barrel", {
 
 		-- the default stack, from which objects will be taken
 		input_inventory = "dst",
-		connect_sides = {left = 1, right = 1, back = 1, front = 1, bottom = 1, top = 1}
+		connect_sides = {
+				left = 1, right = 1, back = 1, front = 1, bottom = 1, top = 1}
 	} end end)(),
 
 	on_timer = function(pos)
@@ -858,26 +765,20 @@ minetest.register_node("wine:wine_barrel", {
 	end,
 })
 
-if mcl then
+local ingot = "default:steel_ingot"
 
-	minetest.register_craft({
-		output = "wine:wine_barrel",
-		recipe = {
-			{"group:wood", "group:wood", "group:wood"},
-			{"mcl_core:iron_ingot", "", "mcl_core:iron_ingot"},
-			{"group:wood", "group:wood", "group:wood"},
-		},
-	})
-else
-	minetest.register_craft({
-		output = "wine:wine_barrel",
-		recipe = {
-			{"group:wood", "group:wood", "group:wood"},
-			{"default:steel_ingot", "", "default:steel_ingot"},
-			{"group:wood", "group:wood", "group:wood"},
-		},
-	})
+if mcl then
+	ingot = "mcl_core:iron_ingot"
 end
+
+minetest.register_craft({
+	output = "wine:wine_barrel",
+	recipe = {
+		{"group:wood", "group:wood", "group:wood"},
+		{ingot, "", ingot},
+		{"group:wood", "group:wood", "group:wood"},
+	},
+})
 
 
 -- LBMs to start timers on existing, ABM-driven nodes
@@ -928,6 +829,9 @@ if minetest.get_modpath("lucky_block") then
 			{name = "wine:bottle_bourbon", max = 1},
 			{name = "wine:bottle_vodka", max = 1},
 			{name = "wine:wine_barrel", max = 1},
+			{name = "wine:bottle_sake", max = 1},
+			{name = "wine:bottle_beer", max = 1},
+			{name = "wine:bottle_wheat_beer", max = 1},
 			{name = "wine:blue_agave", max = 4}}},
 	})
 end

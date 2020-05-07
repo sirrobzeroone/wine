@@ -24,3 +24,7 @@ THE SOFTWARE.
 wine_bourbon_bottle.png has royalty free license
 	(Mikhail Miroscnichenko @ dreamstime.com)
 
+Textures by Darkstalker (cc-by-3.0 license)
+wine_beer_bottle.png
+wine_wheat_beer_bottle.png
+wine_sake_bottle.png
