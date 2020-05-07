@@ -22,7 +22,7 @@ Change log:
 - 1.2 - Added Unified Inventory support for barrel recipes (thanks to realmicu)
 - 1.3 - Translations updated and French added thanks to TheDarkTiger
 - 1.4 - Added bottle of beer and bottle of wheat beer (thanks Darkstalker for textures)
-- 1.5 - Added bottle of sake (texture by Darkstalker), code tidy & tweaks, resized bottles and glasses, added some new lucky blocks
+- 1.5 - Added bottle of sake (texture by Darkstalker), code tidy & tweaks, resized bottles and glasses, added some new lucky blocks, support for Thirst mod
 
 Lucky Blocks: 16
 

@@ -109,6 +109,9 @@ end
 local gla_sel = {type = "fixed", fixed = {-0.2, -0.5, -0.2, 0.2, 0, 0.2}}
 local bot_sel = {type = "fixed", fixed = {-0.15, -0.5, -0.15, 0.15, 0.25, 0.15}}
 
+-- is thirsty mod active
+local thirsty_mod = minetest.get_modpath("thirsty")
+
 
 -- glass of wine
 minetest.register_node("wine:glass_wine", {
@@ -128,7 +131,15 @@ minetest.register_node("wine:glass_wine", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 5)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 -- bottle of wine
@@ -165,7 +176,15 @@ minetest.register_node("wine:glass_rum", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 5)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 
@@ -204,7 +223,15 @@ minetest.register_node("wine:glass_wheat_beer", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 8)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 -- bottle of wheat beer
@@ -241,7 +268,15 @@ minetest.register_node("wine:glass_beer", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 8)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 -- bottle of beer
@@ -278,7 +313,15 @@ minetest.register_node("wine:glass_mead", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(4),
+--	on_use = minetest.item_eat(4),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 5)
+			end
+			return minetest.do_item_eat(4, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 
@@ -300,7 +343,15 @@ minetest.register_node("wine:glass_cider", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 6)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 
@@ -322,7 +373,15 @@ minetest.register_node("wine:glass_tequila", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 3)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 
@@ -360,7 +419,15 @@ minetest.register_node("wine:glass_sake", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 3)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 -- bottle of sake
@@ -397,7 +464,15 @@ minetest.register_node("wine:glass_bourbon", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 3)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 -- bottle of bourbon
@@ -434,7 +509,15 @@ minetest.register_node("wine:glass_vodka", {
 		alcohol = 1
 	},
 	sounds = wine.snd_g,
-	on_use = minetest.item_eat(2),
+--	on_use = minetest.item_eat(2),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if thirsty_mod then
+				thirsty.drink(user, 3)
+			end
+			return minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+		end
+	end
 })
 
 -- bottle of vodka
