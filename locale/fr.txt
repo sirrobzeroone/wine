@@ -1,19 +1,22 @@
 # Traduction Française du mod Wine par TenPlus1
 # textdomain: wine
 # author: TheDarkTiger
-# last update: 2020/Apr/25
+# last update: 2020/May/08
 
 Glass of Wine=Verre de Vin
 Bottle of Wine=Bouteille de Vin
 Rum=Rhum
 Bottle of Rum=Bouteille de Rhum
 Wheat Beer=Bière de Blé
+Bottle of Wheat Beer=Bouteille de Bière de Blé
 Beer=Bière
+Bottle of Beer=Bouteille de Bière
 Honey-Mead=Hydromel
 Apple Cider=Cidre Brut
 Tequila=Tequila
 Bottle of Tequila=Bouteille de Tequila
 Sake=Saké
+Bottle of Sake=Bouteille de Saké
 Glass of Bourbon=Verre de Bourbon
 Bottle of Bourbon=Bouteille de Bourbon
 Glass of Vodka=Verre de Vodka

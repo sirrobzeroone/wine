@@ -1,20 +1,23 @@
 # Deutsche Übersetzung der wine Mod
 # textdomain: wine
-# Author: Xanthin
-# Author: TheDarkTiger
-# last update: 2020/Apr/26
+# author: Xanthin
+# author: TheDarkTiger
+# last update: 2020/May/08
 
 Glass of Wine=Glas Wein
 Bottle of Wine=Flasche Wein
 Rum=Rum
 Bottle of Rum=Flasche Rum
 Wheat Beer=Weizenbier
+Bottle of Wheat Beer=Flasche Weizenbier
 Beer=Bier
+Bottle of Beer=Flasche Bier
 Honey-Mead=Honigwein
 Apple Cider=Apfelwein
 Tequila=Tequila
 Bottle of Tequila=Flasche Tequilla
 Sake=Sake
+Bottle of Sake=Flasche Sake
 Glass of Bourbon=Glas Bourbon
 Bottle of Bourbon=Flasche Bourbon
 Glass of Vodka=Glas Wodka
