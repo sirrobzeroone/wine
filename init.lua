@@ -354,6 +354,21 @@ minetest.register_node("wine:glass_cider", {
 	end
 })
 
+-- bottle of cider
+minetest.register_node("wine:bottle_cider", {
+	description = S("Bottle of Cider"),
+	drawtype = "plantlike",
+	visual_scale = 0.7,
+	tiles = {"wine_cider_bottle.png"},
+	inventory_image = "wine_cider_bottle.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = bot_sel,
+	groups = {dig_immediate = 3, attached_node = 1, vessel = 1},
+	sounds = wine.snd_d,
+})
+
 
 -- glass of tequila
 minetest.register_node("wine:glass_tequila", {
@@ -537,8 +552,8 @@ minetest.register_node("wine:bottle_vodka", {
 
 
 -- bottle recipes
-local bottles = {
-	"wine", "beer", "rum", "tequila", "wheat_beer", "sake", "bourbon", "vodka"}
+local bottles = {"wine", "beer", "rum", "tequila", "wheat_beer", "sake",
+		"bourbon", "vodka", "cider"}
 
 for n = 1, #bottles do
 
