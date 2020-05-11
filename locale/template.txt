@@ -1,7 +1,7 @@
 # Template for translations of wine mod
 # textdomain: wine
 # author: ?
-# last update: 2020/Apr/26
+# last update: 2020/May/11
 
 Glass of Wine=
 Bottle of Wine=
@@ -13,6 +13,7 @@ Beer=
 Bottle of Beer=
 Honey-Mead=
 Apple Cider=
+Bottle of Cider=
 Tequila=
 Bottle of Tequila=
 Sake=

@@ -3,7 +3,7 @@
 # author: Unknown
 # author: TenPlus1
 # author: TheDarkTiger
-# last update: 2020/May/08
+# last update: 2020/May/11
 
 Glass of Wine=Copa de vino
 Bottle of Wine=Botella de vino
@@ -15,6 +15,7 @@ Beer=Cerveza
 Bottle of Beer=Botella de Cerveza
 Honey-Mead=Bebida de Miel
 Apple Cider=Sidra de Manzana
+Bottle of Cider=Botella de Sidra de Manzana
 Tequila=Tequíla
 Bottle of Tequila=Botella de Tequíla
 Sake=Sake

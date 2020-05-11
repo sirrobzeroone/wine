@@ -13,6 +13,7 @@ Beer=Bière
 Bottle of Beer=Bouteille de Bière
 Honey-Mead=Hydromel
 Apple Cider=Cidre Brut
+Bottle of Cider=Bouteille de Cidre
 Tequila=Tequila
 Bottle of Tequila=Bouteille de Tequila
 Sake=Saké

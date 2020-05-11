@@ -2,7 +2,7 @@
 # textdomain: wine
 # author: Xanthin
 # author: TheDarkTiger
-# last update: 2020/May/08
+# last update: 2020/May/11
 
 Glass of Wine=Glas Wein
 Bottle of Wine=Flasche Wein
@@ -14,6 +14,7 @@ Beer=Bier
 Bottle of Beer=Flasche Bier
 Honey-Mead=Honigwein
 Apple Cider=Apfelwein
+Bottle of Cider=Flasche Apfelwein
 Tequila=Tequila
 Bottle of Tequila=Flasche Tequilla
 Sake=Sake
