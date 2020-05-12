@@ -89,7 +89,7 @@ if is_uninv then
 end
 
 
--- add item to ferment list and resulting beverage
+-- add item and resulting beverage to list
 function wine:add_item(list)
 
 	for n = 1, #list do
@@ -127,9 +127,9 @@ for n = 1, #beverages do
 
 	local name = beverages[n][1]
 	local desc = beverages[n][2]
-	local has_bottle = beverages[n][2]
-	local hunger = beverages[n][3]
-	local thirst = beverages[n][3]
+	local has_bottle = beverages[n][3]
+	local num_hunger = beverages[n][4]
+	local num_thirst = beverages[n][5]
 
 	-- glass
 	minetest.register_node("wine:glass_" .. name, {
@@ -157,10 +157,10 @@ for n = 1, #beverages do
 			if user then
 
 				if thirsty_mod then
-					thirsty.drink(user, 5)
+					thirsty.drink(user, num_thirst)
 				end
 
-				return minetest.do_item_eat(2, nil,
+				return minetest.do_item_eat(num_hunger, nil,
 						itemstack, user, pointed_thing)
 			end
 		end
