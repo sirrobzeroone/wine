@@ -2,7 +2,7 @@
 # textdomain: wine
 # author: Xanthin
 # author: TheDarkTiger
-# last update: 2020/May/11
+# last update: 2020/May/12
 
 Glass of Wine=Glas Wein
 Bottle of Wine=Flasche Wein
@@ -13,6 +13,7 @@ Bottle of Wheat Beer=Flasche Weizenbier
 Beer=Bier
 Bottle of Beer=Flasche Bier
 Honey-Mead=Honigwein
+Bottle of Honey-Mead=Flasche Honigwein
 Apple Cider=Apfelwein
 Bottle of Cider=Flasche Apfelwein
 Tequila=Tequila

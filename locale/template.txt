@@ -12,6 +12,7 @@ Bottle of Wheat Beer=
 Beer=
 Bottle of Beer=
 Honey-Mead=
+Bottle of Honey-Mead=
 Apple Cider=
 Bottle of Cider=
 Tequila=
