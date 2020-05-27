@@ -68,7 +68,6 @@ local ferment = {
 	{"farming:rice", "wine:glass_sake"},
 	{"farming:corn", "wine:glass_bourbon"},
 	{"farming:baked_potato", "wine:glass_vodka"},
-	{"farming:mint_leaf", "wine:glass_mint"}
 }
 
 if mcl then
@@ -121,7 +120,7 @@ local beverages = {
 	{"vodka", "Vodka", true, 2, 3},
 	{"cider", "Cider", true, 2, 6},
 	{"mead", "Honey-Mead", true, 4, 5},
-	{"mint", "Mint Julep", true, 2, 3}
+	{"mint", "Mint Julep", true, 4, 3}
 }
 
 -- create glasses and bottles
@@ -307,6 +306,20 @@ if minetest.get_modpath("bonemeal") then
 	})
 end
 
+-- Mint Julep
+if minetest.get_modpath("farming")
+and farming.mod and farming.mod == "redo"then
+
+	minetest.register_craft( {
+	type = "shapeless",
+	output = "wine:glass_mint",
+	recipe = {
+		"wine:glass_bourbon", "farming:sugar", "farming:mint_leaf",
+		"farming:mint_leaf", "farming:mint_leaf"
+	}
+})
+
+end
 
 -- Wine barrel
 winebarrel_formspec = "size[8,9]"
