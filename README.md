@@ -23,10 +23,11 @@ Change log:
 - 1.3 - Translations updated and French added thanks to TheDarkTiger
 - 1.4 - Added bottle of beer and bottle of wheat beer (thanks Darkstalker for textures)
 - 1.5 - Added bottle of sake (texture by Darkstalker), code tidy & tweaks, resized bottles and glasses, added some new lucky blocks, support for Thirst mod
-- 1.6 - Added bottle of Mead and Cider (textures by Darkstalker), re-arranged 
+- 1.6 - Added bottle of Mead, Cider and Mint-Julep (textures by Darkstalker), 
+re-arranged 
 code, tweaked lucky blocks, updated translations
 
-Lucky Blocks: 14
+Lucky Blocks: 15
 
 
 Wine Mod API

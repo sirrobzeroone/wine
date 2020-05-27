@@ -35,4 +35,5 @@ Textures by Darkstalker (cc-by-3.0 license)
   wine_sake_bottle.png
   wine_cider.bottle.png
   wine_mead_bottle.png
-
+  wine_mint_bottle.png
+  wine_mint_glass.png

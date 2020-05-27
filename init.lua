@@ -67,7 +67,8 @@ local ferment = {
 	{"farming:wheat", "wine:glass_wheat_beer"},
 	{"farming:rice", "wine:glass_sake"},
 	{"farming:corn", "wine:glass_bourbon"},
-	{"farming:baked_potato", "wine:glass_vodka"}
+	{"farming:baked_potato", "wine:glass_vodka"},
+	{"farming:mint_leaf", "wine:glass_mint"}
 }
 
 if mcl then
@@ -119,7 +120,8 @@ local beverages = {
 	{"bourbon", "Bourbon", true, 2, 3},
 	{"vodka", "Vodka", true, 2, 3},
 	{"cider", "Cider", true, 2, 6},
-	{"mead", "Honey-Mead", true, 4, 5}
+	{"mead", "Honey-Mead", true, 4, 5},
+	{"mint", "Mint Julep", true, 2, 3}
 }
 
 -- create glasses and bottles
@@ -559,6 +561,7 @@ if minetest.get_modpath("lucky_block") then
 		{"dro", {"wine:glass_tequila"}, 5},
 		{"dro", {"wine:glass_bourbon"}, 5},
 		{"dro", {"wine:glass_vodka"}, 5},
+		{"dro", {"wine:glass_mint"}, 5},
 		{"dro", {"wine:wine_barrel"}, 1},
 		{"tel", 5, 1},
 		{"nod", "default:chest", 0, {
@@ -570,6 +573,7 @@ if minetest.get_modpath("lucky_block") then
 			{name = "wine:bottle_vodka", max = 1},
 			{name = "wine:wine_barrel", max = 1},
 			{name = "wine:bottle_sake", max = 1},
+			{name = "wine:bottle_mint", max = 1},
 			{name = "wine:bottle_mead", max = 1},
 			{name = "wine:bottle_beer", max = 1},
 			{name = "wine:bottle_wheat_beer", max = 1},
