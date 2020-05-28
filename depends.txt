@@ -9,3 +9,4 @@ mcl_loot?
 doc?
 unified_inventory?
 thirsty?
+farming?
