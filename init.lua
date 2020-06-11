@@ -1,11 +1,11 @@
 wine = {}
 
 local def = minetest.get_modpath("default")
-
 local snd_d = def and default.node_sound_defaults()
 local snd_g = def and default.node_sound_glass_defaults()
 local snd_l = def and default.node_sound_leaves_defaults()
 local sand = "default:desert_sand"
+
 
 -- check for MineClone2
 local mcl = minetest.get_modpath("mcl_core")
@@ -17,11 +17,14 @@ if mcl then
 	sand = "mcl_core:sand"
 end
 
+
 -- check for Unified Inventory
 local is_uninv = minetest.global_exists("unified_inventory") or false
 
+
 -- is thirsty mod active
 local thirsty_mod = minetest.get_modpath("thirsty")
+
 
 -- Intllib
 local S
@@ -52,7 +55,7 @@ if is_uninv then
 		description = "Barrel",
 		icon = 'wine_barrel.png',
 		width = 1,
-		height = 1,
+		height = 1
 	})
 end
 
@@ -67,7 +70,7 @@ local ferment = {
 	{"farming:wheat", "wine:glass_wheat_beer"},
 	{"farming:rice", "wine:glass_sake"},
 	{"farming:corn", "wine:glass_bourbon"},
-	{"farming:baked_potato", "wine:glass_vodka"},
+	{"farming:baked_potato", "wine:glass_vodka"}
 }
 
 if mcl then
@@ -83,7 +86,7 @@ if is_uninv then
 		unified_inventory.register_craft({
 			type = "barrel",
 			items = {f[1]},
-			output = f[2],
+			output = f[2]
 		})
 	end
 end
@@ -101,7 +104,7 @@ function wine:add_item(list)
 			unified_inventory.register_craft({
 				type = "barrel",
 				items = {list[n][1]},
-				output = list[n][2],
+				output = list[n][2]
 			})
 		end
 	end
@@ -122,6 +125,7 @@ local beverages = {
 	{"mead", "Honey-Mead", true, 4, 5},
 	{"mint", "Mint Julep", true, 4, 3}
 }
+
 
 -- create glasses and bottles
 for n = 1, #beverages do
@@ -235,6 +239,8 @@ minetest.register_node("wine:blue_agave", {
 	groups = {snappy = 3, attached_node = 1, plant = 1},
 	sounds = snd_l,
 
+	on_use = minetest.item_eat(2),
+
 	on_construct = function(pos)
 
 		local timer = minetest.get_node_timer(pos)
@@ -280,12 +286,44 @@ minetest.register_node("wine:blue_agave", {
 	end
 })
 
+-- blue agave into cyan dye
 minetest.register_craft( {
 	type = "shapeless",
 	output = "dye:cyan 4",
 	recipe = {"wine:blue_agave"}
 })
 
+-- blue agave as fuel
+minetest.register_craft({
+	type = "fuel",
+	recipe = "wine:blue_agave",
+	burntime = 10,
+})
+
+-- cook blue agave into a sugar syrup
+minetest.register_craftitem("wine:agave_syrup", {
+	description = "Agave Syrup",
+	inventory_image = "wine_agave_syrup.png",
+	groups = {food_sugar = 1, vessel = 1, flammable = 3}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	cooktime = 7,
+	output = "wine:agave_syrup 2",
+	recipe = "wine:blue_agave"
+})
+
+-- blue agave into paper
+minetest.register_craft( {
+	output = "default:paper 3",
+	recipe = {
+		{"wine:blue_agave", "wine:blue_agave", "wine:blue_agave"},
+	}
+})
+
+
+-- register blue agave on mapgen
 minetest.register_decoration({
 	deco_type = "simple",
 	place_on = {sand},
@@ -296,9 +334,11 @@ minetest.register_decoration({
 	y_min = 15,
 	y_max = 50,
 	spawn_by = sand,
-	num_spawn_by = 6,
+	num_spawn_by = 6
 })
 
+
+-- add to bonemeal as decoration if available
 if minetest.get_modpath("bonemeal") then
 
 	bonemeal:add_deco({
@@ -306,22 +346,23 @@ if minetest.get_modpath("bonemeal") then
 	})
 end
 
--- Mint Julep
+
+-- Mint Julep recipe
 if minetest.get_modpath("farming")
 and farming.mod and farming.mod == "redo"then
 
-	minetest.register_craft( {
-	type = "shapeless",
-	output = "wine:glass_mint",
-	recipe = {
-		"wine:glass_bourbon", "farming:sugar", "farming:mint_leaf",
-		"farming:mint_leaf", "farming:mint_leaf"
-	}
-})
-
+	minetest.register_craft({
+		type = "shapeless",
+		output = "wine:glass_mint",
+		recipe = {
+			"wine:glass_bourbon", "farming:sugar", "farming:mint_leaf",
+			"farming:mint_leaf", "farming:mint_leaf"
+		}
+	})
 end
 
--- Wine barrel
+
+-- Wine barrel formspec
 winebarrel_formspec = "size[8,9]"
 	.. "list[current_name;src;2,1;1,1;]"
 	.. "list[current_name;dst;5,1;1,1;]"
@@ -332,6 +373,8 @@ winebarrel_formspec = "size[8,9]"
 	.. "listring[current_player;main]"
 	.. "image[3.5,1;1,1;gui_furnace_arrow_bg.png^[transformR270]"
 
+
+-- Wine barrel node
 minetest.register_node("wine:wine_barrel", {
 	description = S("Fermenting Barrel"),
 	tiles = {"wine_barrel.png" },
@@ -514,9 +557,11 @@ minetest.register_node("wine:wine_barrel", {
 		end
 
 		return true
-	end,
+	end
 })
 
+
+-- wine barrel craft recipe (with mineclone2 check)
 local ingot = "default:steel_ingot"
 
 if mcl then
@@ -593,5 +638,6 @@ if minetest.get_modpath("lucky_block") then
 			{name = "wine:blue_agave", max = 4}}},
 	})
 end
+
 
 print (S("[MOD] Wine loaded"))
