@@ -154,7 +154,7 @@ for n = 1, #beverages do
 		},
 		groups = {
 			vessel = 1, dig_immediate = 3,
-			attached_node = 1, alcohol = 1
+			attached_node = 1, alcohol = 1, drink = 1
 		},
 		sounds = snd_g,
 		on_use = function(itemstack, user, pointed_thing)
@@ -215,7 +215,7 @@ end
 minetest.override_item("wine:glass_wine", {
 	groups = {
 		food_wine = 1, vessel = 1, dig_immediate = 3,
-		attached_node = 1, alcohol = 1
+		attached_node = 1, alcohol = 1, drink = 1
 	}
 })
 
