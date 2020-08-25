@@ -26,9 +26,11 @@ local is_uninv = minetest.global_exists("unified_inventory") or false
 local thirsty_mod = minetest.get_modpath("thirsty")
 
 
--- Intllib
+-- Intllib support
 local S
-if minetest.get_modpath("intllib") then
+if minetest.get_translator then
+	S = minetest.get_translator("wine")
+elseif minetest.get_modpath("intllib") then
 	S = intllib.Getter()
 else
 	S = function(s, a, ...)
