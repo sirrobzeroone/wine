@@ -3,7 +3,7 @@
 # author: Unknown
 # author: TenPlus1
 # author: TheDarkTiger
-# last update: 2020/May/12
+# last update: 2020/October/27
 
 Glass of Wine=Copa de vino
 Bottle of Wine=Botella de vino
@@ -25,7 +25,10 @@ Glass of Cider=Sidra de Manzana
 Bottle of Cider=Botella de Sidra de Manzana
 Glass of Honey-Mead=Bebida de Miel
 Bottle of Honey-Mead=Botella de Bebida de Miel
+Glass of Mint Julep=Julepe de menta
+Bottle of Mint Julep=Botella de Julepe de menta
 Blue Agave=Agave Tequilana
+Agave Syrup=jarabe de agave
 Fermenting Barrel=Barril de fermentación
 Fermenting Barrel (FULL)=Barril de fermentación (Lleno)
 Fermenting Barrel (@1% Done)=Barril de fermentación (@1% completado)

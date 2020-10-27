@@ -1,7 +1,7 @@
 # Template for translations of wine mod
 # textdomain: wine
 # author: ?
-# last update: 2020/May/12
+# last update: 2020/October/27
 
 Glass of Wine=
 Bottle of Wine=
@@ -23,7 +23,10 @@ Glass of Cider=
 Bottle of Cider=
 Glass of Honey-Mead=
 Bottle of Honey-Mead=
+Glass of Mint Julep=
+Bottle of Mint Julep=
 Blue Agave=
+Agave Syrup=
 Fermenting Barrel=
 Fermenting Barrel (FULL)=
 Fermenting Barrel (@1% Done)=

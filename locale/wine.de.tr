@@ -2,7 +2,7 @@
 # textdomain: wine
 # author: Xanthin
 # author: TheDarkTiger
-# last update: 2020/May/12
+# last update: 2020/October/27
 
 Glass of Wine=Glas Wein
 Bottle of Wine=Flasche Wein
@@ -24,7 +24,10 @@ Glass of Cider=Apfelwein
 Bottle of Cider=Flasche Apfelwein
 Glass of Honey-Mead=Honigwein
 Bottle of Honey-Mead=Flasche Honigwein
+Glass of Mint Julep=Minze Julep
+Bottle of Mint Julep=Flasch Minze Julep
 Blue Agave=Agave
+Agave Syrup=Agavendicksaft
 Fermenting Barrel=Gärfass
 Fermenting Barrel (FULL)=Gärfass (VOLL)
 Fermenting Barrel (@1% Done)=Gärfass (@1% erledigt)

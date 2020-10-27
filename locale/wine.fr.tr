@@ -1,7 +1,7 @@
 # Traduction Française du mod Wine par TenPlus1
 # textdomain: wine
 # author: TheDarkTiger
-# last update: 2020/May/12
+# last update: 2020/October/27
 
 Glass of Wine=Verre de Vin
 Bottle of Wine=Bouteille de Vin
@@ -19,11 +19,14 @@ Glass of Bourbon=Bourbon
 Bottle of Bourbon=Bouteille de Bourbon
 Glass of Vodka=Vodka
 Bottle of Vodka=Bouteille de Vodka
-Glass of Cider=Cidre Brut
+Glass of Cider=Cidre
 Bottle of Cider=Bouteille de Cidre
 Glass of Honey-Mead=Hydromel
 Bottle of Honey-Mead=Bouteille d'Hydromel
+Glass of Mint Julep=Mint Julep
+Bottle of Mint Julep=Bouteille de Mint Julep
 Blue Agave=Agave Bleue
+Agave Syrup=Sirop d'Agave
 Fermenting Barrel=Baril de fermentation
 Fermenting Barrel (FULL)=Baril de fermentation (PLEIN)
 Fermenting Barrel (@1% Done)=Baril de fermentation (En cours @1%)
