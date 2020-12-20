@@ -37,3 +37,8 @@ Textures by Darkstalker (cc-by-3.0 license)
   wine_mead_bottle.png
   wine_mint_bottle.png
   wine_mint_glass.png
+
+Textures by Felfa (CC0)
+  wine_champagne*.png
+  wine_coffee*.png
+  wine_brandy*.png

@@ -26,8 +26,9 @@ Change log:
 - 1.6 - Added bottle of Mead, Cider and Mint-Julep (textures by Darkstalker),
 re-arranged code, tweaked lucky blocks, updated translations
 - 1.7 - Added more uses for blue agave (fuel, paper, food, agave syrup)
+- 1.8 - Added glass and bottles for Champagne, Brandy and Coffee Liquor (thanks Felfa)
 
-Lucky Blocks: 15
+Lucky Blocks: 18
 
 
 Wine Mod API

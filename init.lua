@@ -72,7 +72,9 @@ local ferment = {
 	{"farming:wheat", "wine:glass_wheat_beer"},
 	{"farming:rice", "wine:glass_sake"},
 	{"farming:corn", "wine:glass_bourbon"},
-	{"farming:baked_potato", "wine:glass_vodka"}
+	{"farming:baked_potato", "wine:glass_vodka"},
+	{"farming:coffee_beans", "wine:glass_coffee_liquor"},
+	{"wine:glass_champagne_raw", "wine:glass_champagne"}
 }
 
 if mcl then
@@ -125,7 +127,10 @@ local beverages = {
 	{"vodka", "Vodka", true, 2, 3},
 	{"cider", "Cider", true, 2, 6},
 	{"mead", "Honey-Mead", true, 4, 5},
-	{"mint", "Mint Julep", true, 4, 3}
+	{"mint", "Mint Julep", true, 4, 3},
+	{"brandy", "Brandy", true, 3, 4},
+	{"coffee_liquor", "Coffee Liquor", true, 3, 4},
+	{"champagne", "Champagne", true, 4, 5}
 }
 
 
@@ -213,10 +218,46 @@ for n = 1, #beverages do
 end
 
 
--- override to add food group to wine glass
+-- brandy recipe
+minetest.register_craft({
+	type = "cooking",
+	cooktime = 15,
+	output = "wine:glass_brandy",
+	recipe = "wine:glass_wine"
+})
+
+
+-- Raw champagne
+if minetest.get_modpath("farming")
+and farming.mod and (farming.mod == "undo" or farming.mod == "redo") then
+
+	minetest.register_craftitem("wine:glass_champagne_raw", {
+		description = "Raw Champagne",
+		inventory_image = "wine_champagne_raw_glass.png",
+		groups = {vessel = 1, flammable = 3}
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "wine:glass_champagne_raw",
+		recipe = {
+			"wine:glass_wine", "farming:sugar"
+		}
+	})
+end
+
+
+-- override to add food group to wine and brandy glass
 minetest.override_item("wine:glass_wine", {
 	groups = {
 		food_wine = 1, vessel = 1, dig_immediate = 3,
+		attached_node = 1, alcohol = 1, drink = 1
+	}
+})
+
+minetest.override_item("wine:glass_brandy", {
+	groups = {
+		food_brandy = 1, vessel = 1, dig_immediate = 3,
 		attached_node = 1, alcohol = 1, drink = 1
 	}
 })
@@ -351,7 +392,7 @@ end
 
 -- Mint Julep recipe
 if minetest.get_modpath("farming")
-and farming.mod and farming.mod == "redo"then
+and farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
 
 	minetest.register_craft({
 		type = "shapeless",
@@ -622,6 +663,9 @@ if minetest.get_modpath("lucky_block") then
 		{"dro", {"wine:glass_bourbon"}, 5},
 		{"dro", {"wine:glass_vodka"}, 5},
 		{"dro", {"wine:glass_mint"}, 5},
+		{"dro", {"wine:glass_coffee_liquor"}, 5},
+		{"dro", {"wine:glass_brandy"}, 5},
+		{"dro", {"wine:glass_champagne"}, 5},
 		{"dro", {"wine:wine_barrel"}, 1},
 		{"tel", 5, 1},
 		{"nod", "default:chest", 0, {
@@ -637,6 +681,9 @@ if minetest.get_modpath("lucky_block") then
 			{name = "wine:bottle_mead", max = 1},
 			{name = "wine:bottle_beer", max = 1},
 			{name = "wine:bottle_wheat_beer", max = 1},
+			{name = "wine:bottle_coffee_liquor", max = 1},
+			{name = "wine:bottle_brandy", max = 1},
+			{name = "wine:bottle_champagne", max = 1},
 			{name = "wine:blue_agave", max = 4}}},
 	})
 end
