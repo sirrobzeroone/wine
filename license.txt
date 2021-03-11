@@ -30,15 +30,17 @@ RiverKpocc @ deviantart.com
   wine_wheat_beer_glass.png
 
 Textures by Darkstalker (cc-by-3.0 license)
-  wine_beer_bottle.png
-  wine_wheat_beer_bottle.png
-  wine_sake_bottle.png
-  wine_cider.bottle.png
-  wine_mead_bottle.png
   wine_mint_bottle.png
   wine_mint_glass.png
+
+Textures by Darkstalker and edited by Felfa (cc-by-3.0 license)
+  wine_beer_bottle.png
+  wine_wheat_beer_bottle.png
+  wine_cider.bottle.png
+  wine_mead_bottle.png
 
 Textures by Felfa (CC0)
   wine_champagne*.png
   wine_coffee*.png
   wine_brandy*.png
+  wine_sake_bottle.png
