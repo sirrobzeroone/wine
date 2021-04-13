@@ -210,9 +210,9 @@ for n = 1, #beverages do
 		})
 
 		minetest.register_craft({
-			type = "shapeless",
+--			type = "shapeless",
 			output = glass .. " 9",
-			recipe = {"wine:bottle_" .. name},
+			recipe = {{"wine:bottle_" .. name}}
 		})
 	end
 end
@@ -238,10 +238,10 @@ and farming.mod and (farming.mod == "undo" or farming.mod == "redo") then
 	})
 
 	minetest.register_craft({
-		type = "shapeless",
+--		type = "shapeless",
 		output = "wine:glass_champagne_raw",
 		recipe = {
-			"wine:glass_wine", "farming:sugar"
+			{"wine:glass_wine", "farming:sugar"}
 		}
 	})
 end
@@ -331,9 +331,9 @@ minetest.register_node("wine:blue_agave", {
 
 -- blue agave into cyan dye
 minetest.register_craft( {
-	type = "shapeless",
+--	type = "shapeless",
 	output = "dye:cyan 4",
-	recipe = {"wine:blue_agave"}
+	recipe = {{"wine:blue_agave"}}
 })
 
 -- blue agave as fuel
@@ -395,11 +395,11 @@ if minetest.get_modpath("farming")
 and farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
 
 	minetest.register_craft({
-		type = "shapeless",
+--		type = "shapeless",
 		output = "wine:glass_mint",
 		recipe = {
-			"wine:glass_bourbon", "farming:sugar", "farming:mint_leaf",
-			"farming:mint_leaf", "farming:mint_leaf"
+			{"farming:mint_leaf", "farming:mint_leaf", "farming:mint_leaf"},
+			{"wine:glass_bourbon", "farming:sugar", ""}
 		}
 	})
 end
