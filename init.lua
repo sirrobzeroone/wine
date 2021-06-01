@@ -66,6 +66,7 @@ local ferment = {
 	{"farming:grapes", "wine:glass_wine"},
 	{"farming:barley", "wine:glass_beer"},
 	{"mobs:honey", "wine:glass_mead"},
+	{"xdecor:honey", "wine:glass_mead"}, -- for when xdcecor is installed
 	{"default:apple", "wine:glass_cider"},
 	{"default:papyrus", "wine:glass_rum"},
 	{"wine:blue_agave", "wine:glass_tequila"},
