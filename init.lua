@@ -690,4 +690,4 @@ if minetest.get_modpath("lucky_block") then
 end
 
 
-print (S("[MOD] Wine loaded"))
+print ("[MOD] Wine loaded")
