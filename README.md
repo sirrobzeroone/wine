@@ -27,6 +27,7 @@ Change log:
 re-arranged code, tweaked lucky blocks, updated translations
 - 1.7 - Added more uses for blue agave (fuel, paper, food, agave syrup)
 - 1.8 - Added glass and bottles for Champagne, Brandy and Coffee Liquor (thanks Felfa)
+- 1.9 - Added wine:add_drink() function to create drink glasses and bottles
 
 Lucky Blocks: 18
 
@@ -34,7 +35,7 @@ Lucky Blocks: 18
 Wine Mod API
 ------------
 
-wine:add_item(list)
+wine:add_item(item_table)
 
 e.g.
 
@@ -42,3 +43,17 @@ wine:add_item({
 	{"farming:barley", "wine:glass_beer"},
 	{"default:apple", "wine:glass_cider"},
 })
+
+
+wine:add_drink(name, desc, has_bottle, num_hunger, num_thirst, alcoholic)
+
+e.g.
+
+wine:add_drink("beer", "Beer", true, 2, 8, 1)
+wine:add_drink("cider", "Cider", true, 2, 6, 1)
+
+
+Note:
+
+Textures used will be wine_beer_glass.png wine_beer_bottle.png and num_thirst is only
+used if thirst mod is active, alcoholic is used if stamina mod is active for drunk effect.

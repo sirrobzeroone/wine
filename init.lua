@@ -135,14 +135,8 @@ local beverages = {
 }
 
 
--- create glasses and bottles
-for n = 1, #beverages do
-
-	local name = beverages[n][1]
-	local desc = beverages[n][2]
-	local has_bottle = beverages[n][3]
-	local num_hunger = beverages[n][4]
-	local num_thirst = beverages[n][5]
+-- add drink with bottle
+function wine:add_drink(name, desc, has_bottle, num_hunger, num_thirst, alcoholic)
 
 	-- glass
 	minetest.register_node("wine:glass_" .. name, {
@@ -162,7 +156,7 @@ for n = 1, #beverages do
 		},
 		groups = {
 			vessel = 1, dig_immediate = 3,
-			attached_node = 1, alcohol = 1, drink = 1
+			attached_node = 1, drink = 1, alcohol = alcoholic
 		},
 		sounds = snd_g,
 		on_use = function(itemstack, user, pointed_thing)
@@ -206,16 +200,28 @@ for n = 1, #beverages do
 			recipe = {
 				{glass, glass, glass},
 				{glass, glass, glass},
-				{glass, glass, glass},
-			},
+				{glass, glass, glass}
+			}
 		})
 
 		minetest.register_craft({
---			type = "shapeless",
 			output = glass .. " 9",
 			recipe = {{"wine:bottle_" .. name}}
 		})
 	end
+end
+
+
+-- create glasses and bottles
+for n = 1, #beverages do
+
+	local name = beverages[n][1]
+	local desc = beverages[n][2]
+	local has_bottle = beverages[n][3]
+	local num_hunger = beverages[n][4]
+	local num_thirst = beverages[n][5]
+
+	wine:add_drink(name, desc, has_bottle, num_hunger, num_thirst, 1)
 end
 
 
