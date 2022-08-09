@@ -28,8 +28,9 @@ re-arranged code, tweaked lucky blocks, updated translations
 - 1.7 - Added more uses for blue agave (fuel, paper, food, agave syrup)
 - 1.8 - Added glass and bottles for Champagne, Brandy and Coffee Liquor (thanks Felfa)
 - 1.9 - Added wine:add_drink() function to create drink glasses and bottles
+- 2.0 - Added optional second ingredient, added water usage for brewing, added Empty Bottle/Glass requried for brewing, Formspec additions, re-arranged code, Supports old wine:add_item() format, addition of setting to only register non-alcholic items, 5 non-alcholic brewing recipes/items added and added 5 Lucky Blocks.
 
-Lucky Blocks: 18
+Lucky Blocks: 23
 
 
 Wine Mod API
@@ -39,10 +40,40 @@ wine:add_item(item_table)
 
 e.g.
 
-wine:add_item({
-	{"farming:barley", "wine:glass_beer"},
-	{"default:apple", "wine:glass_cider"},
-})
+wine:add_item({output = "wine:glass_green_stuff", 
+			  recipe = {"modname:green_stuff 1","",true}, 
+			  water = 25,  
+		      brew_time  = 100})
+			  
+output = Item recieved at end of brew_time
+recipe = {ItemStack, ItemStack or ""*,Empty Bottle/Glass required true/false**}
+water  = Units of water used in brewing - Brewing barrel when full has 2000 units
+brew_time = time in second to brew item.
+
+* Inside recipe if second ingredient ItemStack is empty must use "" to indicate such.
+** Inside recipe if Empty glass bottle is set to false, item can brewed without
+	supplying the glass/bottle. Example of this is Champagne which is brewed from Wine.
+
+If wine:bottle_tequila has been registered* the above will auto register a brewing 
+recipe for a bottle using 8x the glass values. User recieves 1 free glass when 
+brewing by the bottle. The code automatically does the below e.g.
+	output = "wine:bottle_green_stuff", 
+	recipe = {"modname:green_stuff 8","nil",true}, 
+	water = 200,  
+	brew_time  = 800
+
+* There is an additional check in the event empty bottle/glass is not required code will also
+	check to ensure Ingredient in slot 1 also has a bottle item. If no bottle version then 
+	recipe is not registered - e.g.
+	
+	Milk/Kefir there is not item mobs:bottle_milk so no recipe to brew kefir by the bottle 
+	just by the glass. Glasses of Kefir can still be crafted into bottles for easier storage.
+
+Note Structure to register changed in 2.0, code supports old format with the below settings:
+	output = output as supplied
+	recipe = {input as supplied.." 1", "nil", true}
+	water = 25
+	brew_time = 100
 
 
 wine:add_drink(name, desc, has_bottle, num_hunger, num_thirst, alcoholic)
@@ -51,9 +82,9 @@ e.g.
 
 wine:add_drink("beer", "Beer", true, 2, 8, 1)
 wine:add_drink("cider", "Cider", true, 2, 6, 1)
-
+wine:add_drink("sparkling_apple_juice", "Sparkling Apple Juice", true, 1, 3, 0)
 
 Note:
-
-Textures used will be wine_beer_glass.png wine_beer_bottle.png and num_thirst is only
-used if thirst mod is active, alcoholic is used if stamina mod is active for drunk effect.
+~ Textures used will be wine_beer_glass.png wine_beer_bottle.png
+~ Num_thirst is only used if thirst mod is active, 
+~ Alcoholic is used if stamina mod is active for drunk effect.
