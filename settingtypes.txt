@@ -1,0 +1,11 @@
+#    Set to false and only non-alcoholic based drinks are registered eg Sparkling/Fizzy drinks - Allows mod/brewing to be used with younger children. 
+register_alcohol (Register Alcohol) bool true
+
+#    This is how many water units a barrel can hold, increasing this will lower the amount of time players have to spend refilling barrels with water. 
+barrel_water_max (Barrel Maximum Water Stored) int 2000
+
+#    This is how many units of water a full bucket adds to a barrel, increase this to lower the number of times a player needs empty a bucket into a barrel to fill it. Best if this value is evenly dividable by Barrel Maximum Water Stored eg 2000/400 = 5 buckets to fill. 
+bucket_refill_amt (Bucket Refill Amount) int 400
+
+#    The number of times the glass recipe ingredients are multiplied by for the bottle recipe. With a value of 8 the player gets 1 free glass for every bottled brewed an advantage for brewing by the bottle - set to 9 to remove bonus, set to 7 to increase bonus. Recommended this is not set above 9. 
+bottle_rec_multi (Bottle Ingredient Multiplier) int 8

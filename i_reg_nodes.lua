@@ -104,6 +104,7 @@ minetest.register_node("wine:wine_barrel", {
 		inv:set_size("src_1", 2)
 		inv:set_size("src_2", 2)
 		inv:set_size("src_g", 1)
+		inv:set_size("src_b", 1)
 		inv:set_size("dst", 1)
 	end,
 
@@ -115,7 +116,8 @@ minetest.register_node("wine:wine_barrel", {
 		if not inv:is_empty("dst")
 		or not inv:is_empty("src_1") 
 		or not inv:is_empty("src_2")
-		or not inv:is_empty("src_g") then
+		or not inv:is_empty("src_g") 
+		or not inv:is_empty("src_b") then
 			return false
 		end
 
@@ -144,10 +146,28 @@ minetest.register_node("wine:wine_barrel", {
 
 		if listname == "src_1" or 
 		   listname == "src_2" or
-		   listname == "src_g" then
+		   listname == "src_g" then 
+		   
 			return stack:get_count()
+			
+		elseif listname == "src_b" then
+			local is_water
+			for _,def in ipairs(wine.water_refill) do			
+				if def[1] == stack:get_name() then
+					is_water = true
+					break
+				end			
+			end
+			
+			if is_water then
+				return stack:get_count()
+			else
+				return 0
+			end
+			
 		elseif listname == "dst" then
 			return 0
+		
 		end
 	end,
 
@@ -164,7 +184,8 @@ minetest.register_node("wine:wine_barrel", {
 
 		if from_list == "src_1" or to_list == "src_1" or
 		   from_list == "src_2" or to_list == "src_2" or
-		   from_list == "src_g" or to_list == "src_g" then
+		   from_list == "src_g" or to_list == "src_g" or 
+		   from_list == "src_b" or to_list == "src_b"then
 			return count
 		
 		elseif to_list == "dst" then
@@ -174,23 +195,52 @@ minetest.register_node("wine:wine_barrel", {
 		end
 	end,
 	
-	on_metadata_inventory_put = function(pos)
-		minetest.get_node_timer(pos):start(5)
+	on_metadata_inventory_put = function(pos)		
+		local timer = minetest.get_node_timer(pos)
+		
+		if not timer:is_started() then			
+			minetest.get_node_timer(pos):start(5)
+		end
 	end,
 
 	on_metadata_inventory_move = function(pos)
-		minetest.get_node_timer(pos):start(5)		
+		local timer = minetest.get_node_timer(pos)
+		
+		if not timer:is_started() then			
+			minetest.get_node_timer(pos):start(5)
+		end		
 	end,
 
 	on_metadata_inventory_take = function(pos)
-		minetest.get_node_timer(pos):start(5)
+		local timer = minetest.get_node_timer(pos)
+		
+		if not timer:is_started() then			
+			minetest.get_node_timer(pos):start(5)
+		end	
 	end,
 	
 	tube = (function() if minetest.get_modpath("pipeworks") then return {
-
-		-- using a different stack from defaut when inserting
+		
+		-- using a different stack from default when inserting
 		insert_object = function(pos, node, stack, direction)
-
+			-- for consistancy I have matched sides with hopper rules )as close as possible) 
+			-- so in the case both mods are active we aren't torturing our players.
+			-- remeber top/bottom are reversed as in hopper it's relative to hopper
+			-- below is relative to our barrel node.
+			
+			local incoming_side
+			
+			-- Conversion, more for readability (sorry no void pipes)
+			if direction.y == -1 then 
+				incoming_side = "top"
+				
+			elseif math.abs(direction.x) == 1 then 
+				incoming_side = "x_axis"
+			
+			elseif math.abs(direction.z) == 1 then
+				incoming_side = "z_axis"
+			end
+		
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			local timer = minetest.get_node_timer(pos)
@@ -198,16 +248,52 @@ minetest.register_node("wine:wine_barrel", {
 			if not timer:is_started() then
 				timer:start(5)
 			end
-
-			return inv:add_item("src_1", stack)
+			
+			if incoming_side == "top" then
+				return inv:add_item("src_1", stack)
+				
+			elseif incoming_side == "x_axis" then
+				return inv:add_item("src_2", stack)
+				
+			elseif incoming_side == "z_axis" then
+				return inv:add_item("src_g", stack)
+				
+			end
+			
 		end,
 
 		can_insert = function(pos,node,stack,direction)
-
+			-- for consistancy I have matched sides with hopper rules )as close as possible) 
+			-- so in the case both mods are active we aren't torturing our players.
+			-- remeber top/bottom are reversed as in hopper it's relative to hopper
+			-- below is relative to our barrel node.
+			
+			local incoming_side = "side"
+			
+			-- Conversion, more for readability (sorry no void pipes)
+			if direction.y == -1 then 
+				incoming_side = "top"
+				
+			elseif math.abs(direction.x) == 1 then 
+				incoming_side = "x_axis"
+			
+			elseif math.abs(direction.z) == 1 then
+				incoming_side = "z_axis"
+			end
+			
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-
-			return inv:room_for_item("src_1", stack)
+			
+			if incoming_side == "top" then
+				return inv:room_for_item("src_1", stack)
+				
+			elseif incoming_side == "x_axis" then
+				return inv:room_for_item("src_2", stack)
+				
+			elseif incoming_side == "z_axis" then 
+				return inv:room_for_item("src_g", stack)
+			end
+			
 		end,
 
 		-- the default stack, from which objects will be taken

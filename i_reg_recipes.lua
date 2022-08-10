@@ -122,7 +122,7 @@ if wine.is_farming_redo then
 	--Wine
 	wine:add_item({output = "wine:glass_wine", 
 					recipe = {"farming:grapes 3","nil",true}, 
-					water = 10,  
+					water = 100,  
 					brew_time  = 75})
 	
 	if minetest.registered_nodes["wine:glass_wine"] then

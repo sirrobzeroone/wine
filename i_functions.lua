@@ -41,8 +41,8 @@ function wine.winebarrel_formspec(pos)
 	local meta          = minetest.get_meta(pos)
 	local brewing       = meta:get_string("brewing")
 	local brewing_des   = ""
-	local mcl_m_inv_c   = ""						-- mineclone normal inventory slot color
-	local mcl_b_inv_c   = ""						-- mineclone barrel inventory slot color
+	local mcl_m_inv_c   = ""                         -- mineclone normal inventory slot color
+	local mcl_b_inv_c   = ""                         -- mineclone barrel inventory slot color
 	local mcl_cont_off  = 0
 	local main_inv_loc  = "0.25,5;8,1;0"
 	local main_inv_loc2 = "0.25,6.5;8,3;8"
@@ -70,6 +70,7 @@ function wine.winebarrel_formspec(pos)
 	local tt_empty_bg     = S("Empty Glass or Bottle")
 	local tt_finish_p     = S("Fermenting Barrel (@1% Done)", fin_per)
 	local cur_brew        = S("Brewing: ")..brewing_des
+	local tt_water_bucket = S("Water Bucket")
 	
 	-- mineclone2 
 	if wine.is_mcl then
@@ -85,22 +86,24 @@ function wine.winebarrel_formspec(pos)
 		.. "size[".. (10.25 + (mcl_cont_off*2)) ..",10.25]"
 		.. "container["..mcl_cont_off..",0]"
 		.. "image[0.25,0.25;5.5,4.25;wine_barrel_fs_bg.png]"
+		.. "image[1.26,2.8;3.495,1.45;wine_barrel_water.png^[colorize:#261c0e:175^[opacity:125" --
+		.. "^[lowpart:"..water_per..":wine_barrel_water.png]"
 		.. "style_type[list;size=0.85,0.85;spacing=0.25,0.1]"
 		.. mcl_b_inv_c
 		.. "list[current_name;src_1;1.7,0.85;1,2;0]"
 		.. "list[current_name;src_2;3.5,0.85;1,2;0]"
+		.. "list[current_name;src_b;2.6,3.00;1,1;0]"		
 		.. "style_type[list;size=1,1;spacing=0.25,0.25]"
 		.. mcl_m_inv_c
 		.. "list[current_name;src_g;6.1,2;1,1;0]"
 		.. "list[current_name;dst;8.7,2;1,1;0]"
-		.. "image[1.26,2.8;3.495,1.45;wine_barrel_water.png^[colorize:#261c0e:175^[opacity:125" --
-		.. "^[lowpart:"..water_per..":wine_barrel_water.png]"
 		.. "image[7.4,2;1,1;barrel_icon_bg.png^[lowpart:"..fin_per..":barrel_icon.png]"
 		.. "tooltip[1.7,0.65;1,2.2;"..tt_ing_1.."]"
 		.. "tooltip[3.5,0.65;1,2.2;"..tt_ing_2.."]"		
 		.. "tooltip[1.26,2.8;3.495,1.45;"..tt_water_stored..": "..water_per.."%]"
 		.. "tooltip[6.1,2;1,1;"..tt_empty_bg.."]"		
 		.. "tooltip[7.35,2;1,1;"..cur_brew.."\n"..tt_finish_p.."]"
+		.. "tooltip[2.6,3.00;0.85,0.85;"..tt_water_bucket.."]"		
 		.. "container_end[]"
 		.. "list[current_player;main;"..main_inv_loc.."]"
 		.. "list[current_player;main;"..main_inv_loc2.."]"
@@ -180,12 +183,13 @@ function wine:add_item(def_table)
 	end
 	
 	-- Register single glass recipe
-	table.insert(wine.registered_brews,{ing_1 = def_table.recipe[1],
-										ing_2 = def_table.recipe[2],
-										vessel = req_glass,
-										water_used = def_table.water,
-										brew_time = def_table.brew_time,
-										output = def_table.output})
+	table.insert(wine.registered_brews,{
+				ing_1 = def_table.recipe[1],
+				ing_2 = def_table.recipe[2],
+				vessel = req_glass,
+				water_used = def_table.water,
+				brew_time = def_table.brew_time,
+				output = def_table.output})
 
 	-- Bottle recipe registration 
 	-- calculations essentially 8x glass - 1 free glass for efficency	
@@ -235,12 +239,13 @@ function wine:add_item(def_table)
 		end
 		
 		if reg_bottle then
-			table.insert(wine.registered_brews,{ing_1 = ing_1_bot_fin,
-											   ing_2 = ing_2_bot_fin,
-											   vessel = req_bottle,
-											   water_used = (def_table.water*bot_multi),
-											   brew_time = (def_table.brew_time*bot_multi),
-											   output = def_table.output:gsub("glass","bottle")})
+			table.insert(wine.registered_brews,{
+				ing_1 = ing_1_bot_fin,
+				ing_2 = ing_2_bot_fin,
+				vessel = req_bottle,
+				water_used = (def_table.water*bot_multi),
+				brew_time = (def_table.brew_time*bot_multi),
+				output = def_table.output:gsub("glass","bottle")})
 		end
 	end
 
@@ -379,11 +384,11 @@ function wine.get_recipe(node_inv, water_store)
 				src_2_name = "nil"
 			end
 			
-			if node_inv:contains_item("src_1", def.ing_1) and    -- ingredient 1
+			if node_inv:contains_item("src_1", def.ing_1) and   -- ingredient 1
 			   (node_inv:contains_item("src_2", def.ing_2) or 
-				src_2_name == def.ing_2) and                     -- ingredient 2 with string "nil" check
-				node_inv:contains_item("src_g", def.vessel) and  -- glass/bottle or nil
-			   water_store > def.water_used then	             -- enough water		   
+				src_2_name == def.ing_2) and                    -- ingredient 2 with string "nil" check
+				node_inv:contains_item("src_g", def.vessel) and -- glass/bottle or nil
+			   water_store > def.water_used then                -- enough water		   
 			
 			   recipe = def
 			   break
@@ -436,11 +441,13 @@ function wine.timer_valid_inv(meta)
 		local src_1 = node_inv:get_size("src_1")     -- new source
 		local src_2 = node_inv:get_size("src_2")     -- new source
 		local src_g = node_inv:get_size("src_g")     -- new source
+		local src_b = node_inv:get_size("src_b")     -- new source
 		local dst   = node_inv:get_size("dst")       -- nil change 
 
 		if src_1 ~= 2 then node_inv:set_size("src_1", 2) inv_rtn = true end
 		if src_2 ~= 2 then node_inv:set_size("src_2", 2) inv_rtn = true end
 		if src_g ~= 1 then node_inv:set_size("src_g", 1) inv_rtn = true end
+		if src_b ~= 1 then node_inv:set_size("src_b", 1) inv_rtn = true end
 		if dst   ~= 1 then node_inv:set_size("dst", 1)   inv_rtn = true end
 		
 		if src > 0 then
@@ -459,6 +466,56 @@ function wine.timer_valid_inv(meta)
 	if inv_rtn or timer_rtn then rtn = true end
 		
 	return rtn
+end
+
+------------------------------------
+-- Barrel - Process Water Bucket
+function wine.process_water_bucket(meta,pos)
+	
+	local node_inv  = meta:get_inventory()
+	local water_level = meta:get_int("water_store")
+	
+	if not node_inv:is_empty("src_b") and 
+		water_level < (wine.barrel_water_max - (wine.bucket_refill_amt/2)) then
+		
+		local item_name = node_inv:get_stack("src_b", 1):get_name()
+		local item_cnt  = node_inv:get_stack("src_b", 1):get_count()
+		local is_water
+		local is_empty
+		local refill_amt
+		local empty_cont
+			
+		for _,def in ipairs(wine.water_refill) do			
+			if def[1] == item_name then
+				is_water = true
+				refill_amt = def[2]
+				empty_cont = def[3]
+				break
+				
+			elseif def[3] == item_name then
+				is_empty = true
+			end			
+		end
+		
+		if is_water then
+			local cur_water_level = meta:get_int("water_store")			
+			      water_level = cur_water_level + refill_amt
+			
+			if water_level > wine.barrel_water_max then
+				water_level = wine.barrel_water_max
+			end
+			
+			node_inv:remove_item("src_b", item_name.." "..item_cnt)		
+			node_inv:add_item("src_b", empty_cont.." 1")	
+				
+		elseif is_empty then
+			-- nothing	
+		else
+			-- player manges to jam none water in there we delete it
+			node_inv:remove_item("src_b", item_name.." "..item_cnt)
+		end
+	end
+	return water_level
 end
 
 ------------------------------------
@@ -507,7 +564,7 @@ function wine.timer_barrel(pos, elapsed)
 	
 	-- saves multiple comment/uncomment for debugging
 	-- set true to see debug ouput for end points
-	local tdebug      = false 
+	local tdebug      = false
 
 	---------------------------
 	-- Brewing or not	
@@ -518,6 +575,7 @@ function wine.timer_barrel(pos, elapsed)
 			cur_cnt_end = recipe.brew_time
 			brewing = recipe.output		
 			infotext = S("Fermenting Barrel (@1% Done)", 0)
+			water_store = wine.process_water_bucket(meta,pos)
 			if tdebug then minetest.debug("Changed Ingredients") end
 			
 		-- Check output room:
@@ -527,6 +585,7 @@ function wine.timer_barrel(pos, elapsed)
 				brewing = ""
 				infotext = S("Fermenting Barrel (FULL)")
 				timer = false
+				water_store = wine.process_water_bucket(meta,pos)
 				if tdebug then minetest.debug("No Room") end
 		
 		elseif cur_cnt >= cur_cnt_end then
@@ -535,6 +594,15 @@ function wine.timer_barrel(pos, elapsed)
 			node_inv:remove_item("src_g", recipe.vessel)
 			node_inv:add_item("dst", recipe.output)
 			
+			-- In this case do bucket first
+			-- Overide stored water value
+			bucket_water = wine.process_water_bucket(meta,pos)
+			
+			if bucket_water ~= water_store then
+				water_store = bucket_water
+			end
+			
+			-- Start output calculations
 			local new_water_store = water_store - recipe.water_used
 			
 			if new_water_store < 0 then new_water_store = 0 end
@@ -553,6 +621,7 @@ function wine.timer_barrel(pos, elapsed)
 				
 			cur_cnt = cur_cnt + 5
 			infotext = S("Fermenting Barrel (@1% Done)", fin_per)
+			water_store = wine.process_water_bucket(meta,pos)
 			if tdebug then minetest.debug("Increase Counter") end
 		end
 	
@@ -561,6 +630,7 @@ function wine.timer_barrel(pos, elapsed)
 		cur_cnt_end = recipe.brew_time
 		brewing = recipe.output			
 		infotext = S("Fermenting Barrel (@1% Done)", 0)
+		water_store = wine.process_water_bucket(meta,pos)
 		if tdebug then minetest.debug("Initial Setup") end
 	else 
 		cur_cnt = 0
@@ -568,6 +638,7 @@ function wine.timer_barrel(pos, elapsed)
 		brewing = ""
 		infotext = S("Fermenting Barrel")
 		timer = false
+		water_store = wine.process_water_bucket(meta,pos)
 		if tdebug then minetest.debug("Sleep") end	
 	end
 	
