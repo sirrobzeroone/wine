@@ -18,6 +18,7 @@ wine = {}
 wine.reg_alcohol = minetest.settings:get("register_alcohol") or true
 wine.barrel_water_max = minetest.settings:get("barrel_water_max") or 2000
 wine.bucket_refill_amt = minetest.settings:get("bucket_refill_amt") or 400
+wine.allow_brew_bottle = minetest.settings:get("allow_brew_bottle") or false
 wine.bottle_rec_multi = minetest.settings:get("bottle_rec_multi") or 8
 wine.registered_brews = {}
 

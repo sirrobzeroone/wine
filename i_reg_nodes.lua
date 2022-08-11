@@ -96,6 +96,7 @@ minetest.register_node("wine:wine_barrel", {
 		meta:set_int("cur_cnt", 0)
 		meta:set_int("cur_cnt_end", 0)
 		meta:set_int("water_store",0)
+		meta:set_int("catchup",0)
 		meta:set_string("brewing", "")
 		meta:set_string("infotext", S("Fermenting Barrel"))
 		meta:set_string("formspec", wine.winebarrel_formspec(pos))
