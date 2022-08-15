@@ -38,13 +38,15 @@ minetest.register_craft({
 
 --Tequila
 wine:add_item({output = "wine:glass_tequila", 
-				recipe = {"wine:blue_agave 2","nil",true}, 
+				recipe = {"wine:blue_agave 2","","",""},
+				e_vessel = true,
 				water = 25,  
 				brew_time  = 100})	
 
 --Sparkling Agave Juice
 wine:add_item({output = "wine:glass_sparkling_agave_juice", 
-				recipe = {"wine:blue_agave 1","wine:agave_syrup 1",true}, 
+				recipe = {"wine:blue_agave 1","wine:agave_syrup 1","",""},
+				e_vessel = true,
 				water = 25,  
 				brew_time  = 50})
 
@@ -52,19 +54,22 @@ wine:add_item({output = "wine:glass_sparkling_agave_juice",
 if wine.is_default then
 	--Apple Cider
 	wine:add_item({output = "wine:glass_cider", 
-					recipe = {"default:apple 2","nil",true}, 
+					recipe = {"default:apple 2","","",""},
+					e_vessel = true,					
 					water = 25,  
 					brew_time  = 100})
 						 
 	--Sparkling Apple Juice
 	wine:add_item({output = "wine:glass_sparkling_apple_juice", 
-					recipe = {"default:apple 2","farming:sugar 1",true}, 
+					recipe = {"default:apple 2","farming:sugar 1","",""},
+					e_vessel = true,	
 					water = 25,  
 					brew_time  = 75})
 	
 	--Rum
 	wine:add_item({output = "wine:glass_rum", 
-					recipe = {"default:papyrus 2","nil",true}, 
+					recipe = {"default:papyrus 2","","",""},
+					e_vessel = true,						
 					water = 25,  
 					brew_time  = 100})
 end 
@@ -73,37 +78,43 @@ end
 if wine.is_mcl then
 	--Apple Cider
 	wine:add_item({output = "wine:glass_cider", 
-					recipe = {"mcl_core:apple 2","nil",true}, 
+					recipe = {"mcl_core:apple 2","nil","",""},
+					e_vessel = true,					
 					water = 25,  
 					brew_time  = 100})
 			 
 	--Sparkling Apple Juice
 	wine:add_item({output = "wine:glass_sparkling_apple_juice", 
-					recipe = {"mcl_core:apple 2","mcl_core:sugar 1",true}, 
+					recipe = {"mcl_core:apple 2","mcl_core:sugar 1","",""}, 
+					e_vessel = true,
 					water = 25,  
 					brew_time  = 75})
 							 
 	--Rum
 	wine:add_item({output = "wine:glass_rum", 
-					recipe = {"mcl_core:reeds 2","nil",true}, 
+					recipe = {"mcl_core:reeds 2","","",""},
+					e_vessel = true,
 					water = 25,  
 					brew_time  = 100})
 							 
 	--Wheat Beer
 	wine:add_item({output = "wine:glass_wheat_beer", 
-					recipe = {"mcl_farming:wheat_item 1","nil",true}, 
+					recipe = {"mcl_farming:wheat_item 1","","",""},
+					e_vessel = true,					
 					water = 50,  
 					brew_time  = 100})
 
 	--Vodka					 
 	wine:add_item({output = "wine:glass_vodka", 
-					recipe = {"mcl_farming:potato_item_baked 2","nil",true}, 
+					recipe = {"mcl_farming:potato_item_baked 2","","",""},
+					e_vessel = true,
 					water = 25,  
 					brew_time  = 100})
 	
 	--Sparkling Carrot Juice
 	wine:add_item({output = "wine:glass_sparkling_carrot_juice", 
-					recipe = {"mcl_farming:carrot_item 1","mcl_core:sugar 1",true}, 
+					recipe = {"mcl_farming:carrot_item 1","mcl_core:sugar 1","",""},
+					e_vessel = true,					
 					water = 35,  
 					brew_time  = 75})
 end
@@ -112,7 +123,8 @@ end
 if wine.is_farming then
 	--Wheat Beer
 	wine:add_item({output = "wine:glass_wheat_beer", 
-					recipe = {"farming:wheat 1","nil",true}, 
+					recipe = {"farming:wheat 1","","",""},
+					e_vessel = true,					
 					water = 50,  
 					brew_time  = 100})
 end
@@ -121,7 +133,8 @@ end
 if wine.is_farming_redo then
 	--Wine
 	wine:add_item({output = "wine:glass_wine", 
-					recipe = {"farming:grapes 3","nil",true}, 
+					recipe = {"farming:grapes 3","","",""},
+					e_vessel = true,					
 					water = 10,  
 					brew_time  = 75})
 	
@@ -160,48 +173,56 @@ if wine.is_farming_redo then
 	
 	--Beer
 	wine:add_item({output = "wine:glass_beer", 
-					recipe = {"farming:barley 1","nil",true}, 
+					recipe = {"farming:barley 1","","",""},
+					e_vessel = true,					
 					water = 50,  
 					brew_time  = 100})
 	--Sake					 
 	wine:add_item({output = "wine:glass_sake", 
-					recipe = {"farming:rice 2","nil",true}, 
+					recipe = {"farming:rice 2","","",""}, 
+					e_vessel = true,
 					water = 25,  
 					brew_time  = 100})
 
 	--Bourbon					 
 	wine:add_item({output = "wine:glass_bourbon", 
-					recipe = {"farming:corn 2","farming:sugar 1",true}, 
+					recipe = {"farming:corn 2","farming:sugar 1","",""},
+					e_vessel = true,
 					water = 10,  
 					brew_time  = 75})
 
 	--Vodka					 
 	wine:add_item({output = "wine:glass_vodka", 
-					recipe = {"farming:baked_potato 2","nil",true}, 
+					recipe = {"farming:baked_potato 2","","",""},
+					e_vessel = true,
 					water = 25,  
 					brew_time  = 100})
 
 	--Coffee Liquor					 
 	wine:add_item({output = "wine:glass_coffee_liquor", 
-					recipe = {"wine:glass_rum 1","farming:coffee_beans 1",false}, 
+					recipe = {"wine:glass_rum 1","farming:coffee_beans 1","",""},
+					e_vessel = false,					
 					water = 10,  
 					brew_time  = 75})
 						 
 	--Champagne					 
 	wine:add_item({output = "wine:glass_champagne", 
-					recipe = {"wine:glass_wine 1","farming:sugar 1",false}, 
+					recipe = {"wine:glass_wine 1","farming:sugar 1","",""},
+					e_vessel = false,					
 					water = 10,  
 					brew_time  = 75})
 	
 	--Sparkling Carrot Juice
 	wine:add_item({output = "wine:glass_sparkling_carrot_juice", 
-					recipe = {"farming:carrot_juice 1","farming:sugar 1",false}, 
+					recipe = {"farming:carrot_juice 1","farming:sugar 1","",""},
+					e_vessel = false,					
 					water = 10,  
 					brew_time  = 50})
 
 	--Sparkling Blackberry Juice
 	wine:add_item({output = "wine:glass_sparkling_blackberry_juice", 
-					recipe = {"farming:blackberry 2","farming:sugar 1",true}, 
+					recipe = {"farming:blackberry 2","farming:sugar 1","",""},
+					e_vessel = true,					
 					water = 35,  
 					brew_time  = 75})
 						 
@@ -220,13 +241,15 @@ end
 if wine.is_mobs_animal then
 	--Mead
 	wine:add_item({output = "wine:glass_mead", 
-					recipe = {"mobs:honey 1","nil",true}, 
+					recipe = {"mobs:honey 1","","",""},
+					e_vessel = true,					
 					water = 50,  
 					brew_time  = 100})
 	
 	--Kefir (Fermented Milk Drink)
 	wine:add_item({output = "wine:glass_kefir", 
-					recipe = {"mobs:glass_milk 1","nil",false}, 
+					recipe = {"mobs:glass_milk 1","","",""},
+					e_vessel = false,
 					water = 10,  
 					brew_time  = 75})
 end
@@ -235,8 +258,8 @@ end
 if wine.is_xdecor then
 	--Mead
 	wine:add_item({output = "wine:glass_mead", 
-					recipe = {"xdecor:honey 1","nil",true}, 
+					recipe = {"xdecor:honey 1","","",""},
+					e_vessel = true,
 					water = 50,  
 					brew_time  = 100})
 end
-

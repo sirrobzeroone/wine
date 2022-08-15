@@ -64,8 +64,7 @@ function wine.winebarrel_formspec(pos)
 	
 	-- tooltip text
 	local S               = wine.intllib()
-	local tt_ing_1 		  = S("Ingredient One")
-	local tt_ing_2 		  = S("Ingredient Two \n    (Optional)")
+	local tt_ing 		  = S("Ingredients")
 	local tt_water_stored = S("Avaliable Water")
 	local tt_empty_bg     = S("Empty Glass or Bottle")
 	local tt_finish_p     = S("Fermenting Barrel (@1% Done)", fin_per)
@@ -90,16 +89,14 @@ function wine.winebarrel_formspec(pos)
 		.. "^[lowpart:"..water_per..":wine_barrel_water.png]"
 		.. "style_type[list;size=0.85,0.85;spacing=0.25,0.1]"
 		.. mcl_b_inv_c
-		.. "list[current_name;src_1;1.7,0.85;1,2;0]"
-		.. "list[current_name;src_2;3.5,0.85;1,2;0]"
+		.. "list[current_name;src;2.05,0.85;2,2;0]"
 		.. "list[current_name;src_b;2.6,3.00;1,1;0]"		
 		.. "style_type[list;size=1,1;spacing=0.25,0.25]"
 		.. mcl_m_inv_c
 		.. "list[current_name;src_g;6.1,2;1,1;0]"
 		.. "list[current_name;dst;8.7,2;1,1;0]"
 		.. "image[7.4,2;1,1;barrel_icon_bg.png^[lowpart:"..fin_per..":barrel_icon.png]"
-		.. "tooltip[1.7,0.65;1,2.2;"..tt_ing_1.."]"
-		.. "tooltip[3.5,0.65;1,2.2;"..tt_ing_2.."]"
+		.. "tooltip[2.05,0.65;1.95,2.2;"..tt_ing.."]"
 		.. "tooltip[2.6,3.00;0.85,0.85;"..tt_water_bucket.."]"			
 		.. "tooltip[1.26,2.8;3.495,1.45;"..tt_water_stored..": "..water_per.."%]"
 		.. "tooltip[6.1,2;1,1;"..tt_empty_bg.."]"		
@@ -117,10 +114,13 @@ function wine:add_item_l(list)
 	for n = 1, #list do
 		-- basic data structure check
 		if list[n][1] and list[n][2] then
-					
+				
+			local itemstack = ItemStack(list[n][1].." 1")
+			
 			wine.register_brew({ 
 				output = list[n][2], 
-				recipe = {list[n][1].." 1","nil",true}, 
+				recipe = {itemstack,"","",""},
+				e_vessel = true,
 				water = 25,  
 				brew_time  = 100})
 				
@@ -143,6 +143,10 @@ function wine:add_item(def_table)
 	local req_bottle = wine.empty_bottle
 	local bot_multi  = wine.bottle_rec_multi
 	local is_brew_bottle = wine.allow_brew_bottle
+	local ingredients_g = {}
+	local ingredients_b = {}	
+	
+				
 	
 	-- Start old wine:add_item catch
 	if not def_table.output then
@@ -165,116 +169,141 @@ function wine:add_item(def_table)
 		return
 	end
 	
+	-- Catch more than 4 Ingredients
+	if #def_table.recipe > 4 then
+		minetest.log("warning", "[Wine MOD]: wine:add_item - "
+				.. "too many ingredients, output not registered: "
+				..def_table.output)
+		return
+	end
+	
 	if not wine.reg_alcohol and 
 	   minetest.get_item_group(def_table.output, "alcohol") > 0 then
 		return
 	end
 	
 	-- Convert not required Glass/Bottle to nil
-	if not def_table.recipe[3] then
+	if not def_table.e_vessel then
 		req_glass = nil
 		req_bottle = nil
 	end
 	
-	-- Convert ingredient_2 from nil or "" to "nil"
-	-- Partial workaround so we can still use 
-	-- inv:contains_item() in wine.get_recipe()
-	if not def_table.recipe[2] or def_table.recipe[2] == "" then
-		def_table.recipe[2] = "nil" 
-	end
-	
+	-- Check supplied ingredients are registered			
+		for _,ing in pairs(def_table.recipe) do						
+			
+			if ing then 
+				local itemstack = ItemStack(ing)
+				if minetest.registered_nodes[itemstack:get_name()] or
+				   minetest.registered_items[itemstack:get_name()] then 			
+					
+					table.insert(ingredients_g,itemstack)
+
+				else
+					minetest.log("warning", "[Wine MOD]: wine:add_item - "
+					.. "ingredient not registered, output not registered: "
+					..def_table.output)
+					
+					return
+				end
+			end
+		end
+
 	-- Register single glass recipe
 	table.insert(wine.registered_brews,{
-				ing_1 = def_table.recipe[1],
-				ing_2 = def_table.recipe[2],
+				ings = ingredients_g,
 				vessel = req_glass,
 				water_used = def_table.water,
 				brew_time = def_table.brew_time,
 				output = def_table.output})
 
 	-- Bottle recipe registration 
-	-- calculations essentially 8x glass - 1 free glass for efficency	
-	if is_brew_bottle then
-		local is_bottle = minetest.registered_nodes[def_table.output:gsub("glass","bottle")]
-		local ing_1_bot_fin
-		local ing_2_bot_fin
-		local reg_bottle = false
-		
-		-- Check if output bottle is registered
-		if is_bottle then
-			-- Multiply ingredient_1
-			local ing_1_name = ItemStack(def_table.recipe[1]):get_name()
-			local ing_1_amt = ItemStack(def_table.recipe[1]):get_count()
-			ing_1_bot_fin = ing_1_name.." "..(ing_1_amt*bot_multi)
-			
-			--Multiply ingredient_2 if present
-			if def_table.recipe[2] ~= "nil" then
-				local ing_2_name = ItemStack(def_table.recipe[2]):get_name()
-				local ing_2_amt = ItemStack(def_table.recipe[2]):get_count()
-				ing_2_bot_fin = ing_2_name.." "..(ing_2_amt*bot_multi)
-			else
-				ing_2_bot_fin = "nil"		
-			end
-			
-			-- check for glass item as ingredient and replace with bottle
-			-- As external mod may provide glass ingredient but the mod registers 
-			-- no bottle version of the item we need to check that a bottle 
-			-- version is registered - example mobs:glass_milk.
-			if not req_bottle then			
-				if string.find(ing_1_bot_fin, "glass") then
-					ing_1_bot_fin = ing_1_bot_fin:gsub("glass","bottle")
+	-- calculations essentially wine.bottle_rec_multi(default 8) x glass 
+	-- 1 free glass for efficency		
+	local is_bottle = minetest.registered_nodes[def_table.output:gsub("glass","bottle")]
+	
+	if is_brew_bottle and is_bottle then
+	
+			-- Check supplied ingredients are registered				
+			for _,ing in ipairs(def_table.recipe) do						
+				if ing then 
+					local itemstack = ItemStack(ing)
 					
-					if minetest.registered_nodes[ItemStack(ing_1_bot_fin):get_name()] then
-						reg_bottle = true
+					-- if glass used as ingredient swap for bottle:
+					if string.find(itemstack:get_name(), "glass") then
+						itemstack:get_name():gsub("glass","bottle")
+					end
+					
+					if itemstack:get_name() ~= "" then
+						local cnt = itemstack:get_count()*wine.bottle_rec_multi
+						itemstack:set_count(cnt)
+					end
+					
+					if minetest.registered_nodes[itemstack:get_name()] or
+					   minetest.registered_items[itemstack:get_name()] then 			
+												
+							table.insert(ingredients_b,itemstack)
+					else
+						minetest.log("warning", "[Wine MOD]: wine:add_item - "
+						.. "ingredient not registered, output not registered: "
+						..def_table.output)
+						return
 					end
 				end
-				
-				if ing_2_bot_fin and string.find(ing_2_bot_fin, "glass") then
-					ing_2_bot_fin = ing_2_bot_fin:gsub("glass","bottle")
-					  
-					if minetest.registered_nodes[ItemStack(ing_2_bot_fin):get_name()] then
-						reg_bottle = true
-					end
-				end
-			else
-				reg_bottle = true
 			end
 			
-			if reg_bottle then
-				table.insert(wine.registered_brews,{
-					ing_1 = ing_1_bot_fin,
-					ing_2 = ing_2_bot_fin,
-					vessel = req_bottle,
-					water_used = (def_table.water*bot_multi),
-					brew_time = (def_table.brew_time*bot_multi),
-					output = def_table.output:gsub("glass","bottle")})
-			end
-		end
+			-- Register bottle recipe			
+			table.insert(wine.registered_brews,{
+				ings = ingredients_b,
+				vessel = req_bottle,
+				water_used = (def_table.water*bot_multi),
+				brew_time = (def_table.brew_time*bot_multi),
+				output = def_table.output:gsub("glass","bottle")})
+
 	end
 	
 	-- unified Inventory Support
-	if wine.is_uninv then	
-		
-		-- change text "nil" to real nil
-		if def_table.recipe[2] == "nil" then
-			def_table.recipe[2] = nil
-			ing_2_bot_fin = nil
-		end
+	if wine.is_uninv then
 	
-		-- glass
+	-- Resorting function so looks nicer inside uninv formspec/ui
+	-- ingredients slots 1-2-4-5, glass slot 3
+		local function re_sort(ing_list,empty_ves)
+			local output = {}
+			local i = 1
+			
+			for _,itemstack in ipairs(ing_list) do
+				output[i] = ItemStack(itemstack)
+				
+				if i == 2 then 
+					i = i + 2
+				else 
+					i = i + 1 
+				end		
+			end
+			
+			output[3] = empty_ves						
+			return output
+		end
+	-- glass		
+		-- re-sort table so looks nicer
+		local uninv_ing_g = re_sort(ingredients_g,req_glass)
+		
 		unified_inventory.register_craft({
 			type = "barrel",
-			items = {def_table.recipe[1], def_table.recipe[2], req_glass},
+			items = uninv_ing_g,
 			output = def_table.output
 		})
 		
-		--bottle
+	--bottle
 		-- is_brew_bottle = setting to stop bottle brewing 
-		-- is_bottle = output, reg_bottle = bottle as ingredient
-		if is_brew_bottle and is_bottle and reg_bottle then
+		-- is_bottle = output bottle
+		if is_brew_bottle and is_bottle then
+			
+			-- re-sort table so looks nicer
+			local uninv_ing_b = re_sort(ingredients_b,req_bottle)				
+				
 			unified_inventory.register_craft({
 				type = "barrel",
-				items = {ing_1_bot_fin, ing_2_bot_fin, req_bottle},
+				items = uninv_ing_b,
 				output = def_table.output:gsub("glass","bottle")
 			})
 		end
@@ -373,33 +402,59 @@ function wine.get_recipe(node_inv, water_store)
 	local recipe
 
 	-- essential ingredient check 
-	if not node_inv:is_empty("src_1") and
-	   water_store > 0 then
-	   
-		for _,def in pairs(wine.registered_brews) do		
-			-- note inv:contains_item() wont work the way I want 
-			-- with real nil or "" use workaround string "nil"				
-			local src_2_name = node_inv:get_stack("src_2", 1):get_name()					
-			if src_2_name == "" then
-				src_2_name = node_inv:get_stack("src_2", 2):get_name()
+	if not node_inv:is_empty("src") and
+		   water_store > 0 then
+		
+		-- Note Self: Any ingredient can be in any slot
+		
+		-- check one ingredients present in greater 
+		-- than needed quantity ,returns recipe dosen't
+		-- account for extra/un-needed ingredients
+		-- see check two
+		for k,def in pairs(wine.registered_brews) do						
+			for i=1,4,1 do
+				local ing = def.ings[i]
+				
+				if def.vessel == nil then
+					def.vessel = ""
+				end
+				
+				if (node_inv:get_stack("src", 1):get_name() == ing:get_name() or
+				   node_inv:get_stack("src", 2):get_name() == ing:get_name() or
+				   node_inv:get_stack("src", 3):get_name() == ing:get_name() or
+				   node_inv:get_stack("src", 4):get_name() == ing:get_name()) and 
+				   node_inv:contains_item("src", ing) and 
+				   water_store >= def.water_used and 
+				   node_inv:get_stack("src_g", 1):get_name() == def.vessel then
+				   
+				   if i == 4 then
+						recipe = def
+						break
+				   end
+				else
+					break				
+				end
 			end
-			
-			if src_2_name == "" then
-				src_2_name = "nil"
+		end
+		
+		-- check two, confirm no extra/un-needed ingredients
+		-- problem caused when we have 1x or 2x "" and 1x random ingredient
+		if recipe then
+			for i=1,4,1 do
+				local inv_stack_name = node_inv:get_stack("src", i):get_name()
+				
+				if inv_stack_name ~= recipe.ings[1]:get_name() and
+				   inv_stack_name ~= recipe.ings[2]:get_name() and
+				   inv_stack_name ~= recipe.ings[3]:get_name() and
+				   inv_stack_name ~= recipe.ings[4]:get_name() then
+				   
+				   recipe = nil
+				   break
+				end		
 			end
-			
-			if node_inv:contains_item("src_1", def.ing_1) and   -- ingredient 1
-			   (node_inv:contains_item("src_2", def.ing_2) or 
-				src_2_name == def.ing_2) and                    -- ingredient 2 with string "nil" check
-				node_inv:contains_item("src_g", def.vessel) and -- glass/bottle or nil
-			   water_store > def.water_used then                -- enough water		   
-			
-			   recipe = def
-			   break
-			end				
-		end   
+		end
 	end
-	
+
 	return recipe
 end
 
@@ -427,9 +482,6 @@ function wine.timer_valid_meta(meta)
 			meta:set_int("formspec", wine.winebarrel_formspec(pos))
 			meta:set_int("infotext", S("Fermenting Barrel"))
 		end
-	
-	-- So we run only once
-	meta:set_int("v2", 1)
 
 	return rtn
 end
@@ -443,34 +495,48 @@ function wine.timer_valid_inv(meta)
 
 		local node_inv = meta:get_inventory()
 		
-		local src   = node_inv:get_size("src")       -- old source	
-		local src_1 = node_inv:get_size("src_1")     -- new source
-		local src_2 = node_inv:get_size("src_2")     -- new source
+		local src   = node_inv:get_size("src")       -- old source/new source	
+		local src_1 = node_inv:get_size("src_1")     -- new source/old source
+		local src_2 = node_inv:get_size("src_2")     -- new source/old source
 		local src_g = node_inv:get_size("src_g")     -- new source
 		local src_b = node_inv:get_size("src_b")     -- new source
 		local dst   = node_inv:get_size("dst")       -- nil change 
 
-		if src_1 ~= 2 then node_inv:set_size("src_1", 2) inv_rtn = true end
-		if src_2 ~= 2 then node_inv:set_size("src_2", 2) inv_rtn = true end
+		if src   ~= 4 then node_inv:set_size("src", 4)   inv_rtn = true end 
 		if src_g ~= 1 then node_inv:set_size("src_g", 1) inv_rtn = true end
 		if src_b ~= 1 then node_inv:set_size("src_b", 1) inv_rtn = true end
 		if dst   ~= 1 then node_inv:set_size("dst", 1)   inv_rtn = true end
 		
-		if src > 0 then
-			-- move contents from old src to new src_1
-			if not node_inv:is_empty("src") then
-				local src_stack = node_inv:get_stack("src", 1)
-				node_inv:set_stack("src_1", 1, src_stack)
+		-- this code not required in end version 
+		-- just jumping test team fwd nicely :)
+		if src_1 > 0 or src_2 > 0 then
+			-- move contents from src_1 back to src
+			if not node_inv:is_empty("src_1") then
+				local src_stack_1 = node_inv:get_stack("src_1", 1)
+				local src_stack_2 = node_inv:get_stack("src_1", 2)
+				node_inv:set_stack("src", 1, src_stack_1)
+				node_inv:set_stack("src", 3, src_stack_2)				
 			end
-			
-			-- delete src
-			node_inv:set_size("src", 0)
+			-- move contents from src_2 back to src
+			if not node_inv:is_empty("src_2") then
+				local src_stack_1 = node_inv:get_stack("src_2", 1)
+				local src_stack_2 = node_inv:get_stack("src_2", 2)
+				node_inv:set_stack("src", 2, src_stack_1)
+				node_inv:set_stack("src", 4, src_stack_2)				
+			end			
+			-- delete src_1/src_2
+			node_inv:set_size("src_1", 0)
+			node_inv:set_size("src_2", 0)			
 		end
 
 		local timer_rtn = wine.timer_valid_meta(meta)
 	
-	if inv_rtn or timer_rtn then rtn = true end
-		
+	if inv_rtn or timer_rtn then 
+		rtn = true 			
+	end
+	-- So we run only once per barrel per version
+	meta:set_string("version", wine.version)	
+
 	return rtn
 end
 
@@ -528,103 +594,130 @@ end
 	-- contains the node are unloaded.
 	-- this is a basic attempt at catchup
 	-- similar to the idea of abm catchup
-function wine.barrel_timer_catchup(catchup, recipe, node_inv, water_store)
+function wine.barrel_timer_catchup(catchup, recipe, node_inv, water_store, tdebug)
 		
 	local new_catchup = minetest.get_gametime()
 	local new_water_store = water_store
 	
 	if catchup ~= 0 and new_catchup-catchup > 5 then
-		local time_elapsed = new_catchup-catchup
-		
+				
 		--------------------
-		-- check supplies
-		local name_ing_g = node_inv:get_stack("src_g", 1):get_name()  
-		local tot_glass  = node_inv:get_stack("src_g", 1):get_count()
-		local tot_water  = water_store
-		local output_space = 99 - node_inv:get_stack("dst", 1):get_count()
-		local ing_src ={"src_1","src_2"}		
-		local name_ing_1 = node_inv:get_stack("src_1", 1):get_name()
-		local name_ing_2 = node_inv:get_stack("src_2", 1):get_name()
-		local tot_sup_inv_amt = {}
+		-- get avaliable supplies
+		local avl_ing = {}
+		local avl_glass = node_inv:get_stack("src_g", 1):get_count()
+		local avl_water = water_store
+		local avl_time  = new_catchup-catchup
 		
-		for k,src in pairs(ing_src) do			
-			local sup_inv_1_name  = node_inv:get_stack("src_"..k, 1):get_name()
-			local sup_inv_1_amt   = node_inv:get_stack("src_"..k, 1):get_count()
-			local sup_inv_2_name  = node_inv:get_stack("src_"..k, 2):get_name()
-			local sup_inv_2_amt   = node_inv:get_stack("src_"..k, 2):get_count()
+		-- loop through each inv slot and check
+		-- for each ingredient and update count
+		for i=1,4,1 do
+			local proc_stack = node_inv:get_stack("src", i)
 			
-			if sup_inv_1_name == sup_inv_2_name  then
-				tot_sup_inv_amt[k] = sup_inv_1_amt + sup_inv_2_amt
-			else
-				tot_sup_inv_amt[k] = sup_inv_1_amt
-			end			
+			-- ingredient check
+			for k,stack in pairs(recipe.ings) do			
+				-- add count from inventory to same table key as 
+				-- recipe ingredient. eg avl_ing = {[1] = 20, [2] = 10} 
+				if stack:get_name() == proc_stack:get_name() then
+					
+					if not avl_ing[k] then avl_ing[k] = 0 end
+					
+					avl_ing[k] = avl_ing[k] + proc_stack:get_count()
+				end			
+			end		
 		end
-		
+				
 		----------------------------------
-		-- check how much of each we need
-		local ing_1_cyc_amt = ItemStack(recipe.ing_1):get_count()
-		local ing_2_cyc_amt = ItemStack(recipe.ing_2):get_count()
-		local ing_g_cyc_amt = ItemStack(recipe.vessel):get_count()
-		local water_cyc_amt = recipe.water_used
-		local time_cyc_amt  = recipe.brew_time
+		-- Amount to Produce 1 output
+		local use_glass = ItemStack(recipe.vessel):get_count()
+		local use_water = recipe.water_used
+		local use_time  = recipe.brew_time
 		
-		--catch nil glass
-		if not ItemStack(recipe.vessel):get_name() then
-			ing_g_cyc_amt = 1 -- cyc_amt to 1
-			tot_glass     = 1000 -- set tot amount to 1000 so impossible to be limit
-			
+		
+		----------------------------------		
+		-- Find Limiting Resource
+		--convert to itemstacks
+		local stack_ing_1 = ItemStack(recipe.ings[1])
+		local stack_ing_2 = ItemStack(recipe.ings[2])	
+		local stack_ing_3 = ItemStack(recipe.ings[3])
+		local stack_ing_4 = ItemStack(recipe.ings[4])		
+		
+		local max_cyc_ing_1 = avl_ing[1]/stack_ing_1:get_count()
+		local max_cyc_ing_2 = avl_ing[2]/stack_ing_2:get_count()
+		local max_cyc_ing_3 = avl_ing[3]/stack_ing_3:get_count()
+		local max_cyc_ing_4	= avl_ing[4]/stack_ing_4:get_count()	
+		local max_cyc_glass = avl_glass/use_glass
+		local max_cyc_water = avl_water/use_water	
+		local max_cyc_time  = avl_time/use_time		
+		local max_output    = 99 - node_inv:get_stack("dst", 1):get_count()
+		
+		if not recipe.vessel then
+			local max_cyc_glass = 1000 -- set to high number
 		end
 		
-		-- catch optional ingredient 2
-		if recipe.ing_2 == "nil" then
-			minetest.debug("inside nil")
-			ing_2_cyc_amt = 1
-			tot_sup_inv_amt[2] = 1000
-		end 
+		-- ingedient_1 has to be avaliable but check anyways
+		if not recipe.ings[1] then
+			max_cyc_ing_1 = 0 
+			-- If we have no ingredient 1 set 0 this effectively
+			-- stops catchup from running but allows returned values
+		end
 		
-		-----------------------------------
-		-- Find limiting resource
-		local max_cyc_ing_1 = math.floor(tot_sup_inv_amt[1]/ing_1_cyc_amt)
-		local max_cyc_ing_2 = math.floor(tot_sup_inv_amt[2]/ing_2_cyc_amt)
-		local max_cyc_ing_g = math.floor(tot_glass/ing_g_cyc_amt)
-		local max_cyc_water = math.floor(tot_water/water_cyc_amt)
-		local max_cyc_time  = math.floor(time_elapsed/time_cyc_amt)
+		if not recipe.ings[2] then max_cyc_ing_2 = 1000 end
+		if not recipe.ings[3] then max_cyc_ing_3 = 1000 end
+		if not recipe.ings[4] then max_cyc_ing_4 = 1000 end
 		
-		-- we dont actually care which is our limiting factor just what the 
-		-- minimum number is
-		-- -1 so our current cycle can finish.
-		
-		local max_cyc = math.min(max_cyc_ing_1, max_cyc_ing_2, max_cyc_ing_g, max_cyc_water, max_cyc_time, output_space)-1
+		-- -1 from max cycle so the current in-progress cycle has
+		-- space and resources to finish.
+		local max_cyc = math.floor( math.min(max_cyc_ing_1, 
+											 max_cyc_ing_2,
+										   	 max_cyc_ing_3,
+											 max_cyc_ing_4, 
+											 max_cyc_glass, 
+											 max_cyc_water, 
+											 max_cyc_time, 
+											 max_output)-1)		
+	
 		-----------------------------------
 		-- Final Check and Output
 		if max_cyc >= 1 then
 			
-			-- Remove Ingedient_1
-			node_inv:remove_item("src_1", name_ing_1.." "..(max_cyc*ing_1_cyc_amt))
-			--minetest.debug("ing_1: "..name_ing_1.." "..(max_cyc*ing_1_cyc_amt))
+			-- Remove Ingedient 1
+			node_inv:remove_item("src", stack_ing_1:get_name().." "..(max_cyc*stack_ing_1:get_count()))
+			if tdebug then minetest.debug("ing_1: "..stack_ing_1:get_name().." "..(max_cyc*stack_ing_1:get_count())) end
 			
 			-- Remove Ingredient 2
 			if recipe.ing_2 ~= "nil" then
-				node_inv:remove_item("src_2", name_ing_2.." "..(max_cyc*ing_2_cyc_amt))
-				--minetest.debug("ing_2: "..name_ing_2.." "..(max_cyc*ing_2_cyc_amt))
+				node_inv:remove_item("src", stack_ing_2:get_name().." "..(max_cyc*stack_ing_2:get_count()))
+				if tdebug then minetest.debug("ing_2: "..stack_ing_2:get_name().." "..(max_cyc*stack_ing_2:get_count())) end
+			end
+			
+			-- Remove Ingredient 3
+			if recipe.ing_3 ~= "nil" then
+				node_inv:remove_item("src", stack_ing_3:get_name().." "..(max_cyc*stack_ing_3:get_count()))
+				if tdebug then minetest.debug("ing_3: "..stack_ing_3:get_name().." "..(max_cyc*stack_ing_3:get_count())) end
+			end
+			
+			-- Remove Ingredient 4
+			if recipe.ing_4 ~= "nil" then
+				node_inv:remove_item("src", stack_ing_4:get_name().." "..(max_cyc*stack_ing_4:get_count()))
+				if tdebug then minetest.debug("ing_4: "..stack_ing_4:get_name().." "..(max_cyc*stack_ing_4:get_count())) end
 			end
 			
 			-- Remove Empty Glass Containers
 			if recipe.vessel then
-				node_inv:remove_item("src_g", recipe.vessel.." "..(max_cyc*ing_g_cyc_amt))
-				--minetest.debug("src_g: "..recipe.vessel.." "..(max_cyc*ing_g_cyc_amt))
+				node_inv:remove_item("src_g", recipe.vessel.." "..(max_cyc*use_glass))
+				if tdebug then minetest.debug("src_g: "..recipe.vessel.." "..(max_cyc*use_glass)) end
 			end
 			
 			-- Remove Water_Store
-			new_water_store = water_store-(max_cyc*water_cyc_amt)
-			--minetest.debug("water: "..water_store-(max_cyc*water_cyc_amt))
+			new_water_store = water_store-(max_cyc*use_water)
+			if tdebug then minetest.debug("water: "..water_store-(max_cyc*use_water)) end
 			
 			-- Add Output
 			node_inv:add_item("dst", ItemStack(recipe.output):get_name().." "..max_cyc)
-			--minetest.debug("dst: "..ItemStack(recipe.output):get_name().." "..max_cyc)
+			if tdebug then minetest.debug("dst: "..ItemStack(recipe.output):get_name().." "..max_cyc) end
 		end
 	end
-	
+
 	return new_catchup, new_water_store
 end
 
@@ -654,7 +747,7 @@ function wine.timer_barrel(pos, elapsed)
 	-- Validate Inventory Structure/Meta Data V2.0
 	local meta = minetest.get_meta(pos)	
 	
-	if meta:get_int("v2") == 0 then
+	if tonumber(meta:get_string("version")) < wine.version then
 		local inv_upd = wine.timer_valid_inv(meta)
 		
 		-- Refresh meta after update
@@ -677,7 +770,7 @@ function wine.timer_barrel(pos, elapsed)
 	
 	-- saves multiple comment/uncomment for debugging
 	-- set true to see debug ouput for end points
-	local tdebug      = false
+	local tdebug      = true
 	
 	---------------------------
 	-- Check and process bucket
@@ -687,7 +780,7 @@ function wine.timer_barrel(pos, elapsed)
 	-- Brewing or not	
 	if brewing ~= "" and recipe then				
 		-- Timer catchup check
-		catchup, water_store = wine.barrel_timer_catchup(catchup, recipe, node_inv, water_store)
+		catchup, water_store = wine.barrel_timer_catchup(catchup, recipe, node_inv, water_store, tdebug)
 		
 		-- Confirm we still have correct Ingredients
 		if brewing ~= recipe.output then
@@ -707,8 +800,10 @@ function wine.timer_barrel(pos, elapsed)
 				if tdebug then minetest.debug("No Room") end
 		
 		elseif cur_cnt >= cur_cnt_end then
-			node_inv:remove_item("src_1", recipe.ing_1)
-			node_inv:remove_item("src_2", recipe.ing_2)
+			node_inv:remove_item("src", recipe.ings[1])
+			node_inv:remove_item("src", recipe.ings[2])
+			node_inv:remove_item("src", recipe.ings[3])
+			node_inv:remove_item("src", recipe.ings[4])			
 			node_inv:remove_item("src_g", recipe.vessel)
 			node_inv:add_item("dst", recipe.output)
 			

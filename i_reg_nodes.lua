@@ -97,13 +97,13 @@ minetest.register_node("wine:wine_barrel", {
 		meta:set_int("cur_cnt_end", 0)
 		meta:set_int("water_store",0)
 		meta:set_int("catchup",0)
+		meta:set_string("version", wine.version)
 		meta:set_string("brewing", "")
 		meta:set_string("infotext", S("Fermenting Barrel"))
 		meta:set_string("formspec", wine.winebarrel_formspec(pos))
 		
 		local inv = meta:get_inventory()
-		inv:set_size("src_1", 2)
-		inv:set_size("src_2", 2)
+		inv:set_size("src", 4)
 		inv:set_size("src_g", 1)
 		inv:set_size("src_b", 1)
 		inv:set_size("dst", 1)
@@ -115,8 +115,7 @@ minetest.register_node("wine:wine_barrel", {
 		local inv = meta:get_inventory()
 
 		if not inv:is_empty("dst")
-		or not inv:is_empty("src_1") 
-		or not inv:is_empty("src_2")
+		or not inv:is_empty("src") 
 		or not inv:is_empty("src_g") 
 		or not inv:is_empty("src_b") then
 			return false
@@ -145,8 +144,7 @@ minetest.register_node("wine:wine_barrel", {
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 
-		if listname == "src_1" or 
-		   listname == "src_2" or
+		if listname == "src" or 
 		   listname == "src_g" then 
 		   
 			return stack:get_count()
@@ -155,7 +153,9 @@ minetest.register_node("wine:wine_barrel", {
 			local is_water
 			for _,def in ipairs(wine.water_refill) do			
 				if def[1] == stack:get_name() then
-					is_water = true
+					
+					is_water = true			
+
 					break
 				end			
 			end
@@ -183,8 +183,7 @@ minetest.register_node("wine:wine_barrel", {
 		local inv = meta:get_inventory()
 		local stack = inv:get_stack(from_list, from_index)
 
-		if from_list == "src_1" or to_list == "src_1" or
-		   from_list == "src_2" or to_list == "src_2" or
+		if from_list == "src" or to_list == "src" or
 		   from_list == "src_g" or to_list == "src_g" or 
 		   from_list == "src_b" or to_list == "src_b"then
 			return count
@@ -197,7 +196,27 @@ minetest.register_node("wine:wine_barrel", {
 	end,
 	
 	on_metadata_inventory_put = function(pos)		
-		local timer = minetest.get_node_timer(pos)
+		
+		local timer = minetest.get_node_timer(pos)		
+		local meta = minetest.get_meta(pos)
+		local node_inv = meta:get_inventory()
+		
+		for _,def in ipairs(wine.water_refill) do			
+			if def[1] == node_inv:get_stack("src_b", 1):get_name() then
+				
+				is_water = true			
+
+				break
+			end			
+		end
+		
+		if is_water then
+			local water_store = meta:get_int("water_store")				
+			local new_water_store = wine.process_water_bucket(water_store,node_inv,pos)
+			
+			meta:set_int("water_store",new_water_store)
+			meta:set_string("formspec",wine.winebarrel_formspec(pos))
+		end
 		
 		if not timer:is_started() then			
 			minetest.get_node_timer(pos):start(5)
@@ -224,7 +243,7 @@ minetest.register_node("wine:wine_barrel", {
 		
 		-- using a different stack from default when inserting
 		insert_object = function(pos, node, stack, direction)
-			-- for consistancy I have matched sides with hopper rules )as close as possible) 
+			-- for consistancy I have matched sides with hopper rules (as close as possible) 
 			-- so in the case both mods are active we aren't torturing our players.
 			-- remeber top/bottom are reversed as in hopper it's relative to hopper
 			-- below is relative to our barrel node.
@@ -235,13 +254,11 @@ minetest.register_node("wine:wine_barrel", {
 			if direction.y == -1 then 
 				incoming_side = "top"
 				
-			elseif math.abs(direction.x) == 1 then 
-				incoming_side = "x_axis"
-			
-			elseif math.abs(direction.z) == 1 then
-				incoming_side = "z_axis"
+			elseif math.abs(direction.x) == 1 or 
+				   math.abs(direction.z) == 1 then 
+				incoming_side = "side"			
 			end
-		
+			
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			local timer = minetest.get_node_timer(pos)
@@ -251,50 +268,42 @@ minetest.register_node("wine:wine_barrel", {
 			end
 			
 			if incoming_side == "top" then
-				return inv:add_item("src_1", stack)
-				
-			elseif incoming_side == "x_axis" then
-				return inv:add_item("src_2", stack)
-				
-			elseif incoming_side == "z_axis" then
 				return inv:add_item("src_g", stack)
+				
+			elseif incoming_side == "side" then
+				return inv:add_item("src", stack)
 				
 			end
 			
 		end,
 
 		can_insert = function(pos,node,stack,direction)
-			-- for consistancy I have matched sides with hopper rules )as close as possible) 
+			-- for consistancy I have matched sides with hopper rules (as close as possible) 
 			-- so in the case both mods are active we aren't torturing our players.
 			-- remeber top/bottom are reversed as in hopper it's relative to hopper
 			-- below is relative to our barrel node.
 			
-			local incoming_side = "side"
+			local incoming_side
 			
-			-- Conversion, more for readability (sorry no void pipes)
+			-- Conversion, more for readability
 			if direction.y == -1 then 
 				incoming_side = "top"
 				
-			elseif math.abs(direction.x) == 1 then 
-				incoming_side = "x_axis"
-			
-			elseif math.abs(direction.z) == 1 then
-				incoming_side = "z_axis"
+			elseif math.abs(direction.x) == 1 or 
+				   math.abs(direction.z) == 1 then 
+				incoming_side = "side"
 			end
 			
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			
 			if incoming_side == "top" then
-				return inv:room_for_item("src_1", stack)
-				
-			elseif incoming_side == "x_axis" then
-				return inv:room_for_item("src_2", stack)
-				
-			elseif incoming_side == "z_axis" then 
 				return inv:room_for_item("src_g", stack)
-			end
-			
+				
+			elseif incoming_side == "side" then
+				return inv:room_for_item("src", stack)
+				
+			end			
 		end,
 
 		-- the default stack, from which objects will be taken
@@ -315,7 +324,7 @@ minetest.register_node("wine:wine_barrel", {
 		meta:set_string("formspec", "")
 		
 		-- Convert Check for Wine V2.0
-		if meta:get_int("v2") == 0 then
+		if tonumber(meta:get_string("version")) < wine.version then
 			wine.timer_valid_inv(meta)		
 			-- Refresh meta after update
 			meta = minetest.get_meta(pos)

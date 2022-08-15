@@ -28,7 +28,7 @@ re-arranged code, tweaked lucky blocks, updated translations
 - 1.7 - Added more uses for blue agave (fuel, paper, food, agave syrup)
 - 1.8 - Added glass and bottles for Champagne, Brandy and Coffee Liquor (thanks Felfa)
 - 1.9 - Added wine:add_drink() function to create drink glasses and bottles
-- 2.0 - Added optional second ingredient, added water usage for brewing, added Empty Bottle/Glass requried for brewing, Formspec additions, re-arranged code, Supports old wine:add_item() format, addition of setting to only register non-alcholic items, 5 non-alcholic brewing recipes/items added and added 5 Lucky Blocks.
+- 2.0 - Added optional ingredients (upto 4), added water usage for brewing, added Empty Bottle/Glass requried for brewing, Formspec additions, re-arranged code, Supports old wine:add_item() format, addition of setting to only register non-alcholic items, addition of setting to allow brewing by the bottle, 5 non-alcholic brewing recipes/items added and added 5 Lucky Blocks.
 
 Lucky Blocks: 23
 
@@ -36,27 +36,29 @@ Lucky Blocks: 23
 Wine Mod API
 ------------
 
-wine:add_item(item_table)
+wine:add_item(def_table)
 
 e.g.
 
 wine:add_item({output = "wine:glass_green_stuff", 
-			  recipe = {"modname:green_stuff 1","",true}, 
+			  recipe = {"modname:green_stuff 1","","",""},
+			  e_vessel = true
 			  water = 25,  
 		      brew_time  = 100})
 			  
 output = Item recieved at end of brew_time
-recipe = {ItemStack, ItemStack or ""*,Empty Bottle/Glass required true/false**}
+recipe = {ItemStack, "", "", ""} use itemstack format or "" for none.
+e_vessel = Empty Glass/Bottle required true/false*
 water  = Units of water used in brewing - Brewing barrel when full has 2000 units
 brew_time = time in second to brew item.
 
-* Inside recipe if second ingredient ItemStack is empty must use "" to indicate such.
-** Inside recipe if Empty glass bottle is set to false, item can brewed without
-	supplying the glass/bottle. Example of this is Champagne which is brewed from Wine.
+* Inside recipe if Empty glass bottle is set to false, item can be brewed without
+  supplying the glass/bottle. Example of this is Champagne which is brewed from Wine.
 
-If wine:bottle_tequila has been registered* the above will auto register a brewing 
-recipe for a bottle using 8x the glass values. User recieves 1 free glass when 
-brewing by the bottle. The code automatically does the below e.g.
+If wine:bottle_tequila has been registered* and Allow bottle brewing is set to true then
+the above will auto register a brewing recipe for a bottle using 8x the glass values. 
+User recieves 1 free glass when brewing by the bottle. 
+The code automatically does the below e.g.
 	output = "wine:bottle_green_stuff", 
 	recipe = {"modname:green_stuff 8","nil",true}, 
 	water = 200,  
@@ -71,7 +73,8 @@ brewing by the bottle. The code automatically does the below e.g.
 
 Note Structure to register changed in 2.0, code supports old format with the below settings:
 	output = output as supplied
-	recipe = {input as supplied.." 1", "nil", true}
+	recipe = {input as supplied.." 1", "", "", ""}
+	e_vessel = true
 	water = 25
 	brew_time = 100
 

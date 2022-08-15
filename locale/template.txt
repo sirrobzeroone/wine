@@ -44,5 +44,6 @@ Ingredient One =
 Ingredient Two \n    (Optional)=
 Avaliable Water=
 Empty Glass or Bottle=
+Water Bucket=
 Brewing: =
 [MOD] Wine loaded=

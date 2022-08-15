@@ -15,13 +15,13 @@ local m_path = minetest.get_modpath(m_name)
 
 -- Global table and settings
 wine = {}
+wine.version = 2.06
 wine.reg_alcohol = minetest.settings:get("register_alcohol") or true
 wine.barrel_water_max = minetest.settings:get("barrel_water_max") or 2000
 wine.bucket_refill_amt = minetest.settings:get("bucket_refill_amt") or 400
 wine.allow_brew_bottle = minetest.settings:get("allow_brew_bottle") or false
 wine.bottle_rec_multi = minetest.settings:get("bottle_rec_multi") or 8
 wine.registered_brews = {}
-
 
 --default
 wine.is_default = minetest.get_modpath("default")
@@ -79,7 +79,7 @@ if wine.is_uninv then
 		description = "Barrel",
 		icon = 'barrel_icon.png',
 		width = 3,
-		height = 1
+		height = 2
 	})
 end
 
@@ -87,18 +87,17 @@ end
 if wine.is_hopper then	
 	hopper:add_container({
 		{"top", "wine:wine_barrel", "dst"},
-		{"bottom", "wine:wine_barrel", "src_1"},
-		{"side", "wine:wine_barrel", "src_2"},
-		{"void", "wine:wine_barrel", "src_g"}
+		{"bottom", "wine:wine_barrel", "src_g"},
+		{"side", "wine:wine_barrel", "src"},
 	})
 end
 
 -- files
 dofile(m_path .. "/i_functions.lua")
 dofile(m_path .. "/i_empty_glass_bottle.lua")
+dofile(m_path .. "/i_agave.lua")
 dofile(m_path .. "/i_reg_nodes.lua")
 dofile(m_path .. "/i_reg_recipes.lua")
-dofile(m_path .. "/i_agave.lua")
 
 if wine.is_lucky_block then
 	dofile(m_path .. "/i_lucky_block.lua")
