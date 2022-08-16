@@ -39,53 +39,59 @@ Wine Mod API
 wine:add_item(def_table)
 
 e.g.
-
+```
 wine:add_item({output = "wine:glass_green_stuff",   
 			  recipe = {"modname:green_stuff 1","","",""},  
 			  e_vessel = true  
 			  water = 25,  
 		      brew_time  = 100})  
+```
 			  
-output = Item recieved at end of brew_time
-recipe = {ItemStack, "", "", ""} use itemstack format or "" for none.
-e_vessel = Empty Glass/Bottle required true/false*
-water  = Units of water used in brewing - Brewing barrel when full has 2000 units
-brew_time = time in second to brew item.
+ - output = Item recieved at end of brew_time
+ - recipe = {ItemStack, "", "", ""} use itemstack format or "" for none.
+ - e_vessel = Empty Glass/Bottle required true/false*
+ - water  = Units of water used in brewing - Brewing barrel when full has 2000 units
+ - brew_time = time in second to brew item.
 
-* Inside recipe if Empty glass bottle is set to false, item can be brewed without
-  supplying the glass/bottle. Example of this is Champagne which is brewed from Wine.
+Inside recipe if empty glass bottle is set to false, item can be brewed without
+supplying the glass/bottle. Example of this is Champagne which is brewed from Wine.
 
-If wine:bottle_tequila has been registered* and Allow bottle brewing is set to true then
+If wine:bottle_green_stuff has been registered and allow bottle brewing is set to true then
 the above will auto register a brewing recipe for a bottle using 8x the glass values. 
-User recieves 1 free glass when brewing by the bottle. 
-The code automatically does the below e.g.  
+User recieves 1 free glass when brewing by the bottle.  
+    
+The code automatically does the below e.g.
+``` 
 	output = "wine:bottle_green_stuff",  
-	recipe = {"modname:green_stuff 8","nil",true},   
+	recipe = {"modname:green_stuff 8","","",""},
+	e_vessel = true ,	
 	water = 200,    
 	brew_time  = 800  
+```
 
-* There is an additional check in the event empty bottle/glass is not required code will also
-	check to ensure Ingredient in slot 1 also has a bottle item. If no bottle version then 
-	recipe is not registered - e.g.
-	
-	Milk/Kefir there is not item mobs:bottle_milk so no recipe to brew kefir by the bottle 
-	just by the glass. Glasses of Kefir can still be crafted into bottles for easier storage.
+There is an additional check in the event empty bottle/glass is not required code will also
+check to ensure the glass ingredient has a registered bottle. If no bottle version then 
+recipe is not registered - e.g.  	
+Milk/Kefir there is not item mobs:bottle_milk so no recipe to brew kefir by the bottle 
+just by the glass. Glasses of Kefir can still be crafted into bottles for easier storage.
 
-Note Structure to register changed in 2.0, code supports old format with the below settings:  
+Note Structure to register changed in 2.0, code supports old format with the below settings:
+``` 
 	output = output as supplied   
 	recipe = {input as supplied.." 1", "", "", ""}   
 	e_vessel = true   
 	water = 25   
 	brew_time = 100   
-
+```
 
 wine:add_drink(name, desc, has_bottle, num_hunger, num_thirst, alcoholic)   
 
 e.g.   
-   
+```   
 wine:add_drink("beer", "Beer", true, 2, 8, 1)   
 wine:add_drink("cider", "Cider", true, 2, 6, 1)   
 wine:add_drink("sparkling_apple_juice", "Sparkling Apple Juice", true, 1, 3, 0)   
+```
 
 Note:
 - Textures used will be wine_beer_glass.png wine_beer_bottle.png
