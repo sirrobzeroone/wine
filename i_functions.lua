@@ -770,7 +770,7 @@ function wine.timer_barrel(pos, elapsed)
 	
 	-- saves multiple comment/uncomment for debugging
 	-- set true to see debug ouput for end points
-	local tdebug      = true
+	local tdebug      = false
 	
 	---------------------------
 	-- Check and process bucket
