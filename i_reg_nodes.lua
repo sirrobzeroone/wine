@@ -324,7 +324,12 @@ minetest.register_node("wine:wine_barrel", {
 		meta:set_string("formspec", "")
 		
 		-- Convert Check for Wine V2.0
-		if tonumber(meta:get_string("version")) < wine.version then
+		local barrel_ver = tonumber(meta:get_string("version"))
+		if not barrel_ver then
+			barrel_ver = 0
+		end
+		
+		if barrel_ver < wine.version then
 			wine.timer_valid_inv(meta)		
 			-- Refresh meta after update
 			meta = minetest.get_meta(pos)

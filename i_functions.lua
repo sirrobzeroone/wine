@@ -133,7 +133,8 @@ end
 -----------------------------
 -- register drink and recipe
 --[[def_table = {output = reg_wine_node, 
-				 recipe = {ing_1,ing_2,glass-bool}, 
+				 recipe = {ing_1,ing_2,ing_3,ing_4},
+				 vessel = true/false,
 				 water = amount,  
 				 time  = seconds}
 ]]
@@ -747,7 +748,12 @@ function wine.timer_barrel(pos, elapsed)
 	-- Validate Inventory Structure/Meta Data V2.0
 	local meta = minetest.get_meta(pos)	
 	
-	if tonumber(meta:get_string("version")) < wine.version then
+	local barrel_ver = tonumber(meta:get_string("version"))
+	if not barrel_ver then
+		barrel_ver = 0
+	end
+	
+	if barrel_ver < wine.version then
 		local inv_upd = wine.timer_valid_inv(meta)
 		
 		-- Refresh meta after update
