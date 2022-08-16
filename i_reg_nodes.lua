@@ -200,6 +200,7 @@ minetest.register_node("wine:wine_barrel", {
 		local timer = minetest.get_node_timer(pos)		
 		local meta = minetest.get_meta(pos)
 		local node_inv = meta:get_inventory()
+		local is_water = false
 		
 		for _,def in ipairs(wine.water_refill) do			
 			if def[1] == node_inv:get_stack("src_b", 1):get_name() then

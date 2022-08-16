@@ -78,7 +78,7 @@ end
 if wine.is_mcl then
 	--Apple Cider
 	wine:add_item({output = "wine:glass_cider", 
-					recipe = {"mcl_core:apple 2","nil","",""},
+					recipe = {"mcl_core:apple 2","","",""},
 					e_vessel = true,					
 					water = 25,  
 					brew_time  = 100})
