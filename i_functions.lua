@@ -411,7 +411,7 @@ function wine.get_recipe(node_inv, water_store)
 		-- than needed quantity ,returns recipe dosen't
 		-- account for extra/un-needed ingredients
 		-- see check two
-		for k,def in pairs(wine.registered_brews) do						
+		for k,def in pairs(wine.registered_brews) do                                                                                        
 			for i=1,4,1 do
 				local ing = def.ings[i]
 				
@@ -419,20 +419,20 @@ function wine.get_recipe(node_inv, water_store)
 					def.vessel = ""
 				end
 				
-				if (node_inv:get_stack("src", 1):get_name() == ing:get_name() or
-				   node_inv:get_stack("src", 2):get_name() == ing:get_name() or
-				   node_inv:get_stack("src", 3):get_name() == ing:get_name() or
-				   node_inv:get_stack("src", 4):get_name() == ing:get_name()) and 
-				   node_inv:contains_item("src", ing) and 
+				if ((node_inv:get_stack("src", 1):get_name() == ing:get_name() or ing:get_name() == "") or
+				   (node_inv:get_stack("src", 2):get_name() == ing:get_name() or ing:get_name() == "") or
+				   (node_inv:get_stack("src", 3):get_name() == ing:get_name() or ing:get_name() == "") or
+				   (node_inv:get_stack("src", 4):get_name() == ing:get_name() or ing:get_name() == "")) and 
+				   (node_inv:contains_item("src", ing) or ing:get_name() == "") and 
 				   water_store >= def.water_used and 
 				   node_inv:get_stack("src_g", 1):get_name() == def.vessel then
-				   
+				  
 				   if i == 4 then
 						recipe = def
 						break
 				   end
 				else
-					break				
+					break                                                    
 				end
 			end
 		end
@@ -442,7 +442,7 @@ function wine.get_recipe(node_inv, water_store)
 		if recipe then
 			for i=1,4,1 do
 				local inv_stack_name = node_inv:get_stack("src", i):get_name()
-				
+
 				if inv_stack_name ~= recipe.ings[1]:get_name() and
 				   inv_stack_name ~= recipe.ings[2]:get_name() and
 				   inv_stack_name ~= recipe.ings[3]:get_name() and
@@ -450,7 +450,7 @@ function wine.get_recipe(node_inv, water_store)
 				   
 				   recipe = nil
 				   break
-				end		
+				end                        
 			end
 		end
 	end

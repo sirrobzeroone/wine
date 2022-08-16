@@ -40,11 +40,11 @@ wine:add_item(def_table)
 
 e.g.
 
-wine:add_item({output = "wine:glass_green_stuff", 
-			  recipe = {"modname:green_stuff 1","","",""},
-			  e_vessel = true
+wine:add_item({output = "wine:glass_green_stuff",   
+			  recipe = {"modname:green_stuff 1","","",""},  
+			  e_vessel = true  
 			  water = 25,  
-		      brew_time  = 100})
+		      brew_time  = 100})  
 			  
 output = Item recieved at end of brew_time
 recipe = {ItemStack, "", "", ""} use itemstack format or "" for none.
