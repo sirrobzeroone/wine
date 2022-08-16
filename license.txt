@@ -44,3 +44,7 @@ Textures by Felfa (CC0)
   wine_coffee*.png
   wine_brandy*.png
   wine_sake_bottle.png
+  
+Textures by XSSheep CC BY-SA 4.0 
+  wine_barrel_mcl.png based on mineclone2 barrel textures
+  https://www.planetminecraft.com/texture_pack/131pixel-perfection/
